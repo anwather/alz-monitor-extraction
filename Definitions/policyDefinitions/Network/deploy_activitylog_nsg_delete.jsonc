@@ -5,29 +5,29 @@
     "description": "Policy to Deploy Activity Log NSG Delete Alert",
     "mode": "All",
     "metadata": {
-      "source": "https://github.com/Azure/Enterprise-Scale/",
-      "version": "1.0.1",
+      "_deployed_by_alz_monitor": "True",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_alz_monitor": "True",
-      "category": "Network"
+      "source": "https://github.com/Azure/Enterprise-Scale/",
+      "category": "Network",
+      "version": "1.0.1"
     },
     "parameters": {
       "alertResourceGroupName": {
+        "defaultValue": "AlzMonitoring-rg",
         "metadata": {
           "description": "Resource group the alert is placed in",
           "displayName": "Resource Group Name"
         },
-        "defaultValue": "AlzMonitoring-rg",
         "type": "String"
       },
       "alertResourceGroupLocation": {
+        "defaultValue": "centralus",
         "metadata": {
           "description": "Location of the Resource group the alert is placed in",
           "displayName": "Resource Group Location"
         },
-        "defaultValue": "centralus",
         "type": "String"
       },
       "enabled": {
@@ -35,30 +35,30 @@
           "true",
           "false"
         ],
+        "defaultValue": "true",
         "metadata": {
           "description": "Alert state for the alert",
           "displayName": "Alert State"
         },
-        "defaultValue": "true",
         "type": "String"
       },
       "alertResourceGroupTags": {
-        "metadata": {
-          "description": "Tags on the Resource group the alert is placed in",
-          "displayName": "Resource Group Tags"
-        },
         "defaultValue": {
           "_deployed_by_alz_monitor": true,
           "environment": "test"
         },
+        "metadata": {
+          "description": "Tags on the Resource group the alert is placed in",
+          "displayName": "Resource Group Tags"
+        },
         "type": "Object"
       },
       "monitorDisable": {
+        "defaultValue": "MonitorDisable",
         "metadata": {
           "description": "Tag name to disable monitoring on resource. Set to true if monitoring should be disabled",
           "displayName": "Effect"
         },
-        "defaultValue": "MonitorDisable",
         "type": "String"
       }
     },
@@ -66,8 +66,8 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Network/networkSecurityGroups",
-            "field": "type"
+            "field": "type",
+            "equals": "Microsoft.Network/networkSecurityGroups"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -79,14 +79,11 @@
         "effect": "deployIfNotExists",
         "details": {
           "type": "Microsoft.Insights/activityLogAlerts",
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "[parameters('enabled')]",
-                "field": "Microsoft.Insights/ActivityLogAlerts/enabled"
+                "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
+                "equals": "[parameters('enabled')]"
               },
               {
                 "equals": 2,
@@ -97,24 +94,24 @@
                       {
                         "allOf": [
                           {
-                            "equals": "category",
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field"
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "category"
                           },
                           {
-                            "equals": "Administrative",
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals"
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "Administrative"
                           }
                         ]
                       },
                       {
                         "allOf": [
                           {
-                            "equals": "operationName",
-                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].field"
+                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].field",
+                            "equals": "operationName"
                           },
                           {
-                            "equals": "Microsoft.Network/networkSecurityGroups/delete",
-                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].equals"
+                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].equals",
+                            "equals": "Microsoft.Network/networkSecurityGroups/delete"
                           }
                         ]
                       }
@@ -124,6 +121,9 @@
               }
             ]
           },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "name": "ActivityNSGDelete",
           "deployment": {
             "properties": {
@@ -208,12 +208,12 @@
                               "condition": {
                                 "allOf": [
                                   {
-                                    "equals": "Administrative",
-                                    "field": "category"
+                                    "field": "category",
+                                    "equals": "Administrative"
                                   },
                                   {
-                                    "equals": "Microsoft.Network/networkSecurityGroups/delete",
-                                    "field": "operationName"
+                                    "field": "operationName",
+                                    "equals": "Microsoft.Network/networkSecurityGroups/delete"
                                   },
                                   {
                                     "field": "status",

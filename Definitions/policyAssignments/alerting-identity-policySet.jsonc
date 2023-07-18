@@ -1,42 +1,34 @@
 {
-  "managedIdentityLocations": {
-    "alz-monitor": ""
-  },
   "parameters": {
-    "kvLatencyAvailabilityAlertState": "true",
-    "kvCapacityPolicyEffect": "disabled",
-    "kvAvailabilityThreshold": "20",
-    "alzMonitorResourceGroupName": "rg-alz-monitor",
-    "kvLatencyAvailabilityEvaluationFrequency": "PT5M",
     "activityKVDeleteAlertState": "true",
+    "kvAvailabilityAlertSeverity": "1",
+    "kvAvailabilityAlertState": "true",
     "kvRequestAlertState": "true",
+    "kvLatencyAvailabilityEvaluationFrequency": "PT5M",
+    "kvRequestEvaluationFrequency": "PT5M",
+    "kvCapacityEvaluationFrequency": "PT1M",
+    "kvCapacityPolicyEffect": "disabled",
     "alzMonitorResourceGroupTags": {
       "Project": "alz-monitor"
     },
-    "kvAvailabilityAlertSeverity": "1",
+    "kvLatencyAvailabilityThreshold": "1000",
+    "kvRequestPolicyEffect": "disabled",
+    "kvAvailabilityEvaluationFrequency": "PT1M",
+    "kvLatencyAvailabilityPolicyEffect": "disabled",
+    "alzMonitorResourceGroupName": "rg-alz-monitor",
+    "kvLatencyAvailabilityWindowSize": "PT5M",
     "kvCapacityAlertSeverity": "1",
     "kvCapacityThreshold": "75",
-    "kvLatencyAvailabilityPolicyEffect": "disabled",
-    "kvRequestWindowSize": "PT5M",
-    "kvAvailabilityPolicyEffect": "disabled",
-    "kvAvailabilityEvaluationFrequency": "PT1M",
-    "kvCapacityAlertState": "true",
-    "kvCapacityEvaluationFrequency": "PT1M",
-    "kvAvailabilityWindowSize": "PT1M",
-    "kvRequestPolicyEffect": "disabled",
-    "kvAvailabilityAlertState": "true",
-    "kvRequestEvaluationFrequency": "PT5M",
-    "kvRequestAlertSeverity": "2",
-    "kvLatencyAvailabilityWindowSize": "PT5M",
     "alzMonitorResourceGroupLocation": "eastus",
-    "kvLatencyAvailabilityThreshold": "1000",
+    "kvCapacityAlertState": "true",
+    "kvRequestWindowSize": "PT5M",
+    "kvLatencyAvailabilityAlertState": "true",
+    "kvCapacityWindowSize": "PT5M",
+    "kvRequestAlertSeverity": "2",
+    "kvAvailabilityThreshold": "20",
     "kvLatencyAvailabilityAlertSeverity": "3",
-    "kvCapacityWindowSize": "PT5M"
-  },
-  "assignment": {
-    "name": "ALZ-Monitor_Identity",
-    "displayName": "ALZ Monitoring Alerts for Identity",
-    "description": "Initiative to deploy alerts relevant to the ALZ Identity Management group"
+    "kvAvailabilityWindowSize": "PT1M",
+    "kvAvailabilityPolicyEffect": "disabled"
   },
   "definitionEntry": {
     "policySetName": "Alerting-Identity"
@@ -44,10 +36,18 @@
   "metadata": {
     "_deployed_by_alz_monitor": true
   },
+  "nodeName": "/root",
   "scope": {
     "alz-monitor": [
       "/providers/Microsoft.Management/managementGroups/alz-monitor-identity"
     ]
   },
-  "nodeName": "/root"
+  "assignment": {
+    "description": "Initiative to deploy alerts relevant to the ALZ Identity Management group",
+    "displayName": "ALZ Monitoring Alerts for Identity",
+    "name": "ALZ-Monitor_Identity"
+  },
+  "managedIdentityLocations": {
+    "alz-monitor": ""
+  }
 }

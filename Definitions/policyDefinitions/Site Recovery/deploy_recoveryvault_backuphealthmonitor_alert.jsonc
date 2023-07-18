@@ -5,34 +5,34 @@
     "description": "Policy to audit/update Recovery Vault Backup Health Alerting to Azure monitor alerts",
     "mode": "All",
     "metadata": {
-      "source": "https://github.com/Azure/Enterprise-Scale/",
-      "version": "1.0.0",
+      "_deployed_by_alz_monitor": "True",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_alz_monitor": "True",
-      "category": "Site Recovery"
+      "source": "https://github.com/Azure/Enterprise-Scale/",
+      "category": "Site Recovery",
+      "version": "1.0.0"
     },
     "parameters": {
+      "monitorDisable": {
+        "defaultValue": "MonitorDisable",
+        "metadata": {
+          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled",
+          "displayName": "Effect"
+        },
+        "type": "String"
+      },
       "effect": {
         "allowedValues": [
           "modify",
           "audit",
           "disabled"
         ],
+        "defaultValue": "modify",
         "metadata": {
           "description": "Effect of the policy",
           "displayName": "Effect"
         },
-        "defaultValue": "modify",
-        "type": "String"
-      },
-      "monitorDisable": {
-        "metadata": {
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled",
-          "displayName": "Effect"
-        },
-        "defaultValue": "MonitorDisable",
         "type": "String"
       }
     },
@@ -40,8 +40,8 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.RecoveryServices/Vaults",
-            "field": "type"
+            "field": "type",
+            "equals": "Microsoft.RecoveryServices/Vaults"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -59,6 +59,7 @@
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
+          "conflictEffect": "audit",
           "operations": [
             {
               "value": "Disabled",
@@ -70,8 +71,7 @@
               "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllJobFailures",
               "operation": "addOrReplace"
             }
-          ],
-          "conflictEffect": "audit"
+          ]
         }
       }
     }

@@ -5,55 +5,55 @@
     "description": "Policy to Deploy Deploy Alert Processing Rule with Action Group",
     "mode": "All",
     "metadata": {
-      "source": "https://github.com/Azure/Enterprise-Scale/",
-      "version": "1.0.1",
+      "_deployed_by_alz_monitor": "True",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_alz_monitor": "True",
-      "category": "Monitoring"
+      "source": "https://github.com/Azure/Enterprise-Scale/",
+      "category": "Monitoring",
+      "version": "1.0.1"
     },
     "parameters": {
       "monitorDisable": {
+        "defaultValue": "MonitorDisable",
         "metadata": {
           "description": "Tag name to disable monitoring at subscription. Set to true if monitoring process rule should be disabled",
           "displayName": "Effect"
         },
-        "defaultValue": "MonitorDisable",
         "type": "String"
       },
       "alzMonitorActionGroupEmail": {
+        "defaultValue": "action@mail.com",
         "metadata": {
           "description": "Email address to send alerts to",
           "displayName": "Action Group Email"
         },
-        "defaultValue": "action@mail.com",
         "type": "String"
       },
       "alzMonitorResourceGroupLocation": {
+        "defaultValue": "centralus",
         "metadata": {
           "description": "Location of the Resource group the alert is placed in",
           "displayName": "Resource Group Location"
         },
-        "defaultValue": "centralus",
         "type": "String"
       },
       "alzMonitorResourceGroupTags": {
+        "defaultValue": {
+          "environment": "test"
+        },
         "metadata": {
           "description": "Tags on the Resource group the alert is placed in",
           "displayName": "Resource Group Tags"
         },
-        "defaultValue": {
-          "environment": "test"
-        },
         "type": "Object"
       },
       "alzMonitorResourceGroupName": {
+        "defaultValue": "AlzMonitoring-rg",
         "metadata": {
           "description": "Resource group the alert is placed in",
           "displayName": "Resource Group Name"
         },
-        "defaultValue": "AlzMonitoring-rg",
         "type": "String"
       }
     },
@@ -61,8 +61,8 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Resources/subscriptions",
-            "field": "type"
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -74,17 +74,17 @@
         "effect": "deployIfNotExists",
         "details": {
           "type": "Microsoft.AlertsManagement/actionRules",
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Alz Alert Processing Rule for Subscription",
-                "field": "Microsoft.AlertsManagement/actionRules/description"
+                "field": "Microsoft.AlertsManagement/actionRules/description",
+                "equals": "Alz Alert Processing Rule for Subscription"
               }
             ]
           },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "deployment": {
             "properties": {
               "parameters": {
@@ -156,14 +156,14 @@
                             "type": "Microsoft.Insights/actionGroups",
                             "properties": {
                               "enabled": true,
+                              "groupShortName": "AlzActionGrp",
                               "emailReceivers": [
                                 {
                                   "name": "AlzMail",
                                   "useCommonAlertSchema": true,
                                   "emailAddress": "[parameters('ALZMonitorActionGroupEmail')]"
                                 }
-                              ],
-                              "groupShortName": "AlzActionGrp"
+                              ]
                             },
                             "apiVersion": "2022-04-01",
                             "location": "global",
