@@ -41,4 +41,4 @@ jobs:
               git add .
               git commit -m "Extracted policy commit"
               git push --set-upstream origin $branchName
-              gh pr create -B main -H $branchName --title "Approval Required for Policy Extraction - $branchName" --body "Policy extraction review" --reviewer $env:REVIEWER --label PolicyDeployment  
+              gh pr create -B main -H $branchName --title "Approval Required for Policy Extraction - $branchName" --body "Policy extraction review" --reviewer $env:REVIEWER
