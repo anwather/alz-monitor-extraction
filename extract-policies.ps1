@@ -2,7 +2,7 @@ Param($TenantId, $Location)
 
 (Get-Content ./assets/mg-structure.json) -replace '""', "`"$tenantId`"" | Set-Content ./assets/mg-structure.json
 
-./assets/deploy-managementgroupstructure.ps1 -TenantId $TenantId -Location $Location
+./assets/deploy-ManagementGroupStructure.ps1 -TenantId $TenantId -Location $Location
 
 $gs = @"
 {
