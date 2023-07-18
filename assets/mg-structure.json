@@ -1,0 +1,36 @@
+{
+    "bdb8ea1c-17da-4181-8895-6b79af002b4e": [
+        {
+            "id": "alz",
+            "displayName": "ALZ Monitor Extraction",
+            "children": [
+                {
+                    "id": "alz-monitor-platform",
+                    "displayName": "ALZ Monitor Platform",
+                    "children": [
+                        {
+                            "id": "alz-monitor-management",
+                            "displayName": "ALZ Monitor Management",
+                            "subscriptions": []
+                        },
+                        {
+                            "id": "alz-monitor-connectivity",
+                            "displayName": "ALZ Monitor Connectivity",
+                            "subscriptions": []
+                        },
+                        {
+                            "id": "alz-monitor-identity",
+                            "displayName": "ALZ Monitor Identity",
+                            "subscriptions": []
+                        }
+                    ]
+                },
+                {
+                    "id": "alz-monitor-lzones",
+                    "displayName": "ALZ Monitor Landing Zones",
+                    "children": []
+                }
+            ]
+        }
+    ]
+}
