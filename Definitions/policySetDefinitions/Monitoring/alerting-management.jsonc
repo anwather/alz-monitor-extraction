@@ -1,0 +1,248 @@
+{
+  "name": "Alerting-Management",
+  "properties": {
+    "metadata": {
+      "alzCloudEnvironments": [
+        "AzureCloud"
+      ],
+      "displayName": "Deploy ALZ Management alerts",
+      "source": "https://github.com/Azure/Enterprise-Scale/",
+      "_deployed_by_alz_monitor": true,
+      "category": "Monitoring",
+      "version": "1.0.1",
+      "description": "This policy set deploys select alert rules for ALZ management resources. Aslo a basic action and alert processing rule is deployed"
+    },
+    "parameters": {
+      "alzMonitorResourceGroupLocation": {
+        "defaultValue": "centralus",
+        "type": "String"
+      },
+      "alzMonitorResourceGroupTags": {
+        "defaultValue": {
+          "_deployed_by_alz_monitor": true
+        },
+        "type": "Object"
+      },
+      "alzMonitorResourceGroupName": {
+        "defaultValue": "ALZ-Monitoring-RG",
+        "type": "String"
+      },
+      "storageAccountAvailabilityAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "storageAccountAvailabilityPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "storageAccountAvailabilityWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "storageAccountAvailabilityAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "storageAccountAvailabilityThreshold": {
+        "defaultValue": "90",
+        "type": "string"
+      },
+      "storageAccountAvailabilityFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "rvBackupHealthMonitorPolicyEffect": {
+        "allowedValues": [
+          "modify",
+          "audit",
+          "disabled"
+        ],
+        "defaultValue": "modify",
+        "type": "string"
+      },
+      "activityLAWDeleteAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "activityLAWKeyRegenAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "aaTotalJobAlertEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT1M",
+        "type": "string"
+      },
+      "aaTotalJobAlertWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "aaTotalJobAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "aaTotalJobAlertThreshold": {
+        "defaultValue": "20",
+        "type": "string"
+      },
+      "aaTotalJobAlertAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "aaTotalJobAlertPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "ALZ_activityLAWDelete",
+        "policyDefinitionName": "Deploy_activitylog_LAWorkspace_Delete",
+        "parameters": {
+          "enabled": {
+            "value": "[parameters('activityLAWDeleteAlertState')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_activityLAWKeyRegen",
+        "policyDefinitionName": "Deploy_activitylog_LAWorkspace_KeyRegen",
+        "parameters": {
+          "enabled": {
+            "value": "[parameters('activityLAWKeyRegenAlertState')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_AATotalJob",
+        "policyDefinitionName": "Deploy_AA_TotalJob_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('AATotalJobAlertWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('AATotalJobAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('AATotalJobAlertAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('AATotalJobAlertEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('AATotalJobAlertPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('AATotalJobAlertThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_RVBackupHealthMonitor",
+        "policyDefinitionName": "Deploy_RecoveryVault_BackupHealthMonitor_Alert",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('RVBackupHealthMonitorPolicyEffect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_StorageAccountAvailability",
+        "policyDefinitionName": "Deploy_StorageAccount_Availability_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('StorageAccountAvailabilityWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('StorageAccountAvailabilityAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('StorageAccountAvailabilityAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('StorageAccountAvailabilityFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('StorageAccountAvailabilityPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('StorageAccountAvailabilityThreshold')]"
+          }
+        }
+      }
+    ]
+  }
+}

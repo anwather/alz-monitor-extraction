@@ -1,0 +1,524 @@
+{
+  "name": "Deploy_VM_NetworkOut_Alert",
+  "properties": {
+    "displayName": "Deploy VM Network Write Alert",
+    "description": "Policy to audit/deploy VM Network Out Alert",
+    "mode": "All",
+    "metadata": {
+      "source": "https://github.com/Azure/Enterprise-Scale/",
+      "version": "1.0.0",
+      "alzCloudEnvironments": [
+        "AzureCloud"
+      ],
+      "category": "Compute"
+    },
+    "parameters": {
+      "evaluationFrequency": {
+        "allowedValues": [
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "description": "Evaluation frequency for the alert",
+          "displayName": "Evaluation Frequency"
+        },
+        "defaultValue": "PT5M",
+        "type": "String"
+      },
+      "autoMitigate": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "description": "Auto Mitigate for the alert",
+          "displayName": "Auto Mitigate"
+        },
+        "defaultValue": "true",
+        "type": "String"
+      },
+      "alertResourceGroupName": {
+        "metadata": {
+          "description": "Resource group the alert is placed in",
+          "displayName": "Resource Group Name"
+        },
+        "defaultValue": "AlzMonitoring-rg",
+        "type": "String"
+      },
+      "alertResourceGroupLocation": {
+        "metadata": {
+          "description": "Location of the Resource group the alert is placed in",
+          "displayName": "Resource Group Location"
+        },
+        "defaultValue": "centralus",
+        "type": "String"
+      },
+      "windowSize": {
+        "allowedValues": [
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "PT24H"
+        ],
+        "metadata": {
+          "description": "Window size for the alert",
+          "displayName": "Window Size"
+        },
+        "defaultValue": "PT15M",
+        "type": "String"
+      },
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
+        },
+        "defaultValue": "true",
+        "type": "String"
+      },
+      "severity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "description": "Severity of the Alert",
+          "displayName": "Severity"
+        },
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "threshold": {
+        "metadata": {
+          "description": "Threshold for the alert",
+          "displayName": "Threshold"
+        },
+        "defaultValue": "10000000",
+        "type": "String"
+      },
+      "alertResourceGroupTags": {
+        "metadata": {
+          "description": "Tags on the Resource group the alert is placed in",
+          "displayName": "Resource Group Tags"
+        },
+        "defaultValue": {
+          "environment": "test"
+        },
+        "type": "Object"
+      },
+      "timeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "metadata": {
+          "displayName": "TimeAggregation"
+        },
+        "defaultValue": "Average",
+        "type": "String"
+      },
+      "failingPeriods": {
+        "metadata": {
+          "description": "Number of failing periods before alert is fired",
+          "displayname": "Failing Periods"
+        },
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "operator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "metadata": {
+          "displayName": "Operator"
+        },
+        "defaultValue": "GreaterThan",
+        "type": "String"
+      },
+      "effect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "description": "Effect of the policy",
+          "displayName": "Effect"
+        },
+        "defaultValue": "deployIfNotExists",
+        "type": "String"
+      },
+      "evaluationPeriods": {
+        "metadata": {
+          "description": "The number of aggregated lookback points.",
+          "displayname": "Evaluation Periods"
+        },
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "autoResolveTime": {
+        "metadata": {
+          "description": "Auto Resolve time for the alert in ISO 8601 format",
+          "displayName": "Auto Resolve"
+        },
+        "defaultValue": "00:10:00",
+        "type": "String"
+      },
+      "autoResolve": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "description": "Auto Resolve for the alert",
+          "displayName": "Auto Resolve"
+        },
+        "defaultValue": "true",
+        "type": "String"
+      },
+      "computersToInclude": {
+        "metadata": {
+          "description": "Array of Computer to be monitored",
+          "displayname": "Disks to be included to be monitored"
+        },
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "networkInterfacesToInclude": {
+        "metadata": {
+          "description": "Array of Network Interface to be monitored",
+          "displayname": "Network Interface to be included to be monitored"
+        },
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "equals": "Microsoft.Compute/virtualMachines",
+            "field": "type"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/scheduledQueryRules",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
+          "existenceCondition": {
+            "allOf": [
+              {
+                "equals": "[concat(subscription().displayName, '-VMHighNetwrokInAlert')]",
+                "field": "Microsoft.Insights/scheduledQueryRules/displayName"
+              },
+              {
+                "equals": "[subscription().id]",
+                "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]"
+              },
+              {
+                "equals": "[parameters('enabled')]",
+                "field": "Microsoft.Insights/scheduledqueryrules/enabled"
+              }
+            ]
+          },
+          "deployment": {
+            "properties": {
+              "parameters": {
+                "evaluationFrequency": {
+                  "value": "[parameters('evaluationFrequency')]"
+                },
+                "autoMitigate": {
+                  "value": "[parameters('autoMitigate')]"
+                },
+                "alertResourceGroupName": {
+                  "value": "[parameters('alertResourceGroupName')]"
+                },
+                "alertResourceGroupLocation": {
+                  "value": "[parameters('alertResourceGroupLocation')]"
+                },
+                "windowSize": {
+                  "value": "[parameters('windowSize')]"
+                },
+                "enabled": {
+                  "value": "[parameters('enabled')]"
+                },
+                "severity": {
+                  "value": "[parameters('severity')]"
+                },
+                "threshold": {
+                  "value": "[parameters('threshold')]"
+                },
+                "alertResourceGroupTags": {
+                  "value": "[parameters('alertResourceGroupTags')]"
+                },
+                "timeAggregation": {
+                  "value": "[parameters('timeAggregation')]"
+                },
+                "failingPeriods": {
+                  "value": "[parameters('failingPeriods')]"
+                },
+                "operator": {
+                  "value": "[parameters('operator')]"
+                },
+                "evaluationPeriods": {
+                  "value": "[parameters('evaluationPeriods')]"
+                },
+                "autoResolveTime": {
+                  "value": "[parameters('autoResolveTime')]"
+                },
+                "autoResolve": {
+                  "value": "[parameters('autoResolve')]"
+                },
+                "computersToInclude": {
+                  "value": "[parameters('computersToInclude')]"
+                },
+                "networkInterfacesToInclude": {
+                  "value": "[parameters('networkInterfacesToInclude')]"
+                }
+              },
+              "template": {
+                "parameters": {
+                  "evaluationFrequency": {
+                    "type": "String"
+                  },
+                  "autoMitigate": {
+                    "type": "String"
+                  },
+                  "alertResourceGroupName": {
+                    "type": "string"
+                  },
+                  "alertResourceGroupLocation": {
+                    "type": "string"
+                  },
+                  "windowSize": {
+                    "type": "String"
+                  },
+                  "enabled": {
+                    "type": "String"
+                  },
+                  "severity": {
+                    "type": "String"
+                  },
+                  "threshold": {
+                    "type": "String"
+                  },
+                  "alertResourceGroupTags": {
+                    "type": "object"
+                  },
+                  "timeAggregation": {
+                    "type": "String"
+                  },
+                  "failingPeriods": {
+                    "type": "String"
+                  },
+                  "operator": {
+                    "type": "String"
+                  },
+                  "evaluationPeriods": {
+                    "type": "String"
+                  },
+                  "autoResolveTime": {
+                    "type": "String"
+                  },
+                  "autoResolve": {
+                    "type": "String"
+                  },
+                  "computersToInclude": {
+                    "type": "array"
+                  },
+                  "policyLocation": {
+                    "defaultValue": "centralus",
+                    "type": "string"
+                  },
+                  "networkInterfaceToInclude": {
+                    "type": "array"
+                  }
+                },
+                "contentVersion": "1.0.0.0",
+                "resources": [
+                  {
+                    "type": "Microsoft.Resources/resourceGroups",
+                    "apiVersion": "2021-04-01",
+                    "location": "[parameters('alertResourceGroupLocation')]",
+                    "name": "[parameters('alertResourceGroupName')]",
+                    "tags": "[parameters('alertResourceGroupTags')]"
+                  },
+                  {
+                    "resourceGroup": "[parameters('alertResourceGroupName')]",
+                    "type": "Microsoft.Resources/deployments",
+                    "properties": {
+                      "parameters": {
+                        "alertResourceGroupName": {
+                          "value": "[parameters('alertResourceGroupName')]"
+                        },
+                        "alertResourceGroupLocation": {
+                          "value": "[parameters('alertResourceGroupLocation')]"
+                        },
+                        "enabled": {
+                          "value": "[parameters('enabled')]"
+                        }
+                      },
+                      "template": {
+                        "parameters": {
+                          "alertResourceGroupName": {
+                            "type": "string"
+                          },
+                          "alertResourceGroupLocation": {
+                            "type": "string"
+                          },
+                          "enabled": {
+                            "type": "string"
+                          }
+                        },
+                        "contentVersion": "1.0.0.0",
+                        "resources": [
+                          {
+                            "type": "Microsoft.Insights/scheduledQueryRules",
+                            "properties": {
+                              "description": "Log Alert for Virtual Machine NetworkOut",
+                              "displayName": "[concat(subscription().displayName, '-VMHighNetworOutAlert')]",
+                              "parameters": {
+                                "evaluationFrequency": {
+                                  "value": "[parameters('evaluationFrequency')]"
+                                },
+                                "autoMitigate": {
+                                  "value": "[parameters('autoMitigate')]"
+                                },
+                                "alertResourceGroupName": {
+                                  "value": "[parameters('alertResourceGroupName')]"
+                                },
+                                "alertResourceGroupLocation": {
+                                  "value": "[parameters('alertResourceGroupName')]"
+                                },
+                                "windowSize": {
+                                  "value": "[parameters('windowSize')]"
+                                },
+                                "enabled": {
+                                  "value": "[parameters('enabled')]"
+                                },
+                                "severity": {
+                                  "value": "[parameters('severity')]"
+                                },
+                                "threshold": {
+                                  "value": "[parameters('threshold')]"
+                                },
+                                "failingPeriods": {
+                                  "value": "[parameters('failingPeriods')]"
+                                },
+                                "evaluationPeriods": {
+                                  "value": "[parameters('evaluationPeriods')]"
+                                },
+                                "autoResolveTime": {
+                                  "value": "[parameters('autoResolveTime')]"
+                                },
+                                "autoResolve": {
+                                  "value": "[parameters('autoResolve')]"
+                                },
+                                "computersToInclude": {
+                                  "value": "[parameters('computersToInclude')]"
+                                },
+                                "networkInterfacesToInclude": {
+                                  "value": "[parameters('networkInterfacesToInclude')]"
+                                }
+                              },
+                              "evaluationFrequency": "[parameters('evaluationFrequency')]",
+                              "autoMitigate": "[parameters('autoMitigate')]",
+                              "windowSize": "[parameters('windowSize')]",
+                              "enabled": "[parameters('enabled')]",
+                              "severity": "[parameters('severity')]",
+                              "criteria": {
+                                "allOf": [
+                                  {
+                                    "threshold": "[parameters('threshold')]",
+                                    "timeAggregation": "[parameters('timeAggregation')]",
+                                    "failingPeriods": {
+                                      "numberOfEvaluationPeriods": "[parameters('evaluationPeriods')]",
+                                      "minFailingPeriodsToAlert": "[parameters('failingPeriods')]"
+                                    },
+                                    "operator": "[parameters('operator')]",
+                                    "metricMeasureColumn": "AggregatedValue",
+                                    "resourceIdColumn": "_ResourceId",
+                                    "dimensions": [
+                                      {
+                                        "operator": "Include",
+                                        "name": "Computer",
+                                        "values": "[parameters('computersToInclude')]"
+                                      },
+                                      {
+                                        "operator": "Include",
+                                        "name": "NetworkInterface",
+                                        "values": "[parameters('networkInterfacesToInclude')]"
+                                      }
+                                    ],
+                                    "query": "InsightsMetrics| where Origin == \"vm.azm.ms\"| where Namespace == \"Network\" and Name == \"WriteBytesPerSecond\"| extend NetworkInterface=tostring(todynamic(Tags)[\"vm.azm.ms/networkDeviceId\"])|summarize AggregatedValue = avg(Val) by bin(TimeGenerated, 15m), Computer, _ResourceId, NetworkInterface"
+                                  }
+                                ]
+                              },
+                              "scopes": [
+                                "[subscription().Id]"
+                              ],
+                              "ruleResolveConfiguration": {
+                                "timeToResolve": "[parameters('autoResolveTime')]",
+                                "autoResolved": "[parameters('autoResolve')]"
+                              },
+                              "targetResourceTypes": [
+                                "Microsoft.Compute/virtualMachines"
+                              ]
+                            },
+                            "apiVersion": "2022-08-01-preview",
+                            "location": "[parameters('alertResourceGroupLocation')]",
+                            "name": "[concat(subscription().displayName, '-VMHighNetworkOutAlert')]"
+                          }
+                        ],
+                        "variables": {},
+                        "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
+                      },
+                      "mode": "Incremental"
+                    },
+                    "apiVersion": "2019-10-01",
+                    "name": "VMNetworkOutAlert",
+                    "dependsOn": [
+                      "[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                    ]
+                  }
+                ],
+                "variables": {},
+                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
+              },
+              "mode": "incremental"
+            },
+            "location": "centralus"
+          },
+          "resourceGroupName": "[parameters('alertResourceGroupName')]",
+          "deploymentScope": "subscription",
+          "existenceScope": "resourcegroup"
+        }
+      }
+    }
+  }
+}
