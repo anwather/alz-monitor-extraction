@@ -1,0 +1,44 @@
+{
+  "managedIdentityLocations": {
+    "alz-monitor": ""
+  },
+  "parameters": {
+    "aaTotalJobAlertWindowSize": "PT5M",
+    "alzMonitorResourceGroupLocation": "eastus",
+    "storageAccountAvailabilityAlertState": "true",
+    "activityLAWKeyRegenAlertState": "true",
+    "rvBackupHealthMonitorPolicyEffect": "modify",
+    "activityLAWDeleteAlertState": "true",
+    "alzMonitorResourceGroupName": "rg-alz-monitor",
+    "storageAccountAvailabilityFrequency": "PT5M",
+    "alzMonitorResourceGroupTags": {
+      "Project": "alz-monitor"
+    },
+    "aaTotalJobAlertPolicyEffect": "deployIfNotExists",
+    "aaTotalJobAlertEvaluationFrequency": "PT1M",
+    "aaTotalJobAlertThreshold": "20",
+    "storageAccountAvailabilityWindowSize": "PT5M",
+    "storageAccountAvailabilityAlertSeverity": "1",
+    "aaTotalJobAlertAlertState": "true",
+    "storageAccountAvailabilityPolicyEffect": "deployIfNotExists",
+    "aaTotalJobAlertSeverity": "2",
+    "storageAccountAvailabilityThreshold": "90"
+  },
+  "assignment": {
+    "name": "ALZ-Monitor_Management",
+    "displayName": "ALZ Monitoring Alerts for Management",
+    "description": "Initiative to deploy alerts relevant to the ALZ Management Management group"
+  },
+  "definitionEntry": {
+    "policySetName": "Alerting-Management"
+  },
+  "metadata": {
+    "_deployed_by_alz_monitor": true
+  },
+  "scope": {
+    "alz-monitor": [
+      "/providers/Microsoft.Management/managementGroups/alz-monitor-management"
+    ]
+  },
+  "nodeName": "/root"
+}

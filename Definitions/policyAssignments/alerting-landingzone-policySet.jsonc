@@ -1,0 +1,93 @@
+{
+  "managedIdentityLocations": {
+    "alz-monitor": ""
+  },
+  "parameters": {
+    "pipvipAvailabilityAlertSeverity": "1",
+    "kvRequestWindowSize": "PT5M",
+    "vnetddosAttackWindowSize": "PT5M",
+    "pipdDoSAttackEvaluationFrequency": "PT5M",
+    "vnetddosAttackAlertSeverity": "1",
+    "kvLatencyAvailabilityEvaluationFrequency": "PT5M",
+    "kvRequestPolicyEffect": "disabled",
+    "pipdDoSAttackAlertSeverity": "1",
+    "activityNSGDeleteAlertState": "true",
+    "pipPacketsInDDoSPolicyEffect": "disabled",
+    "vnetddosAttackEvaluationFrequency": "PT1M",
+    "kvCapacityThreshold": "75",
+    "storageAccountAvailabilityPolicyEffect": "deployIfNotExists",
+    "kvLatencyAvailabilityThreshold": "1000",
+    "pipvipAvailabilityPolicyEffect": "deployIfNotExists",
+    "pipvipAvailabilityAlertState": "true",
+    "pipBytesInDDoSThreshold": "8000000",
+    "rvBackupHealthMonitorPolicyEffect": "modify",
+    "pipdDoSAttackAlertState": "true",
+    "pipBytesInDDoSEvaluationFrequency": "PT5M",
+    "kvAvailabilityPolicyEffect": "disabled",
+    "kvAvailabilityEvaluationFrequency": "PT1M",
+    "vnetddosAttackPolicyEffect": "deployIfNotExists",
+    "alzMonitorResourceGroupTags": {
+      "Project": "alz-monitor"
+    },
+    "activityKVDeleteAlertState": "true",
+    "kvAvailabilityWindowSize": "PT1M",
+    "pipBytesInDDoSPolicyEffect": "disabled",
+    "pipPacketsInDDoSAlertSeverity": "4",
+    "pipvipAvailabilityThreshold": "1",
+    "kvCapacityWindowSize": "PT5M",
+    "storageAccountAvailabilityThreshold": "90",
+    "pipBytesInDDoSAlertSeverity": "4",
+    "kvCapacityEvaluationFrequency": "PT1M",
+    "kvCapacityPolicyEffect": "disabled",
+    "storageAccountAvailabilityWindowSize": "PT5M",
+    "kvRequestEvaluationFrequency": "PT5M",
+    "pipPacketsInDDoSEvaluationFrequency": "PT5M",
+    "storageAccountAvailabilityAlertSeverity": "1",
+    "vnetddosAttackThreshold": "1",
+    "pipvipAvailabilityWindowSize": "PT5M",
+    "kvRequestAlertSeverity": "2",
+    "kvCapacityAlertSeverity": "1",
+    "kvAvailabilityAlertState": "true",
+    "pipdDoSAttackPolicyEffect": "deployIfNotExists",
+    "kvLatencyAvailabilityAlertSeverity": "3",
+    "vnetddosAttackAlertState": "true",
+    "pipdDoSAttackThreshold": "0",
+    "kvAvailabilityThreshold": "20",
+    "kvAvailabilityAlertSeverity": "1",
+    "storageAccountAvailabilityAlertState": "true",
+    "alzMonitorResourceGroupName": "rg-alz-monitor",
+    "storageAccountAvailabilityFrequency": "PT5M",
+    "pipBytesInDDoSWindowSize": "PT5M",
+    "alzMonitorResourceGroupLocation": "eastus",
+    "pipPacketsInDDoSWindowSize": "PT5M",
+    "kvLatencyAvailabilityPolicyEffect": "disabled",
+    "pipBytesInDDoSAlertState": "true",
+    "pipPacketsInDDoSAlertState": "true",
+    "pipvipAvailabilityEvaluationFrequency": "PT1M",
+    "activityUDRUpdateAlertState": "true",
+    "kvRequestAlertState": "true",
+    "pipdDoSAttackWindowSize": "PT5M",
+    "kvCapacityAlertState": "true",
+    "kvLatencyAvailabilityWindowSize": "PT5M",
+    "pipPacketsInDDoSThreshold": "40000",
+    "kvLatencyAvailabilityAlertState": "true"
+  },
+  "assignment": {
+    "name": "ALZ-Monitor_LandingZones",
+    "displayName": "ALZ Monitoring Alerts for LandingZones",
+    "description": "Initiative to deploy alerts relevant to the ALZ LandingZones management group"
+  },
+  "definitionEntry": {
+    "policySetName": "Alerting-LandingZone",
+    "displayName": "Deploy ALZ Landing zone alerts"
+  },
+  "metadata": {
+    "_deployed_by_alz_monitor": true
+  },
+  "scope": {
+    "alz-monitor": [
+      "/providers/Microsoft.Management/managementGroups/alz-monitor-lzones"
+    ]
+  },
+  "nodeName": "/root"
+}

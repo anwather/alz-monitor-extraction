@@ -1,0 +1,2600 @@
+{
+  "name": "Alerting-LandingZone",
+  "properties": {
+    "displayName": "Deploy ALZ Landing zone alerts",
+    "description": "This policy set deploys basic alert rules for landing zone resources. Aslo a basic action and alert processing rule is deployed",
+    "metadata": {
+      "alzCloudEnvironments": [
+        "AzureCloud"
+      ],
+      "version": "1.0.2",
+      "source": "https://github.com/Azure/Enterprise-Scale/",
+      "_deployed_by_alz_monitor": true,
+      "category": "Monitoring"
+    },
+    "parameters": {
+      "alzMonitorResourceGroupLocation": {
+        "defaultValue": "centralus",
+        "type": "String"
+      },
+      "alzMonitorResourceGroupTags": {
+        "defaultValue": {
+          "_deployed_by_alz_monitor": true
+        },
+        "type": "Object"
+      },
+      "alzMonitorResourceGroupName": {
+        "defaultValue": "ALZ-Monitoring-RG",
+        "type": "String"
+      },
+      "kvLatencyAvailabilityEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "storageAccountAvailabilityAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "storageAccountAvailabilityPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "pipvipAvailabilityEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT1M",
+        "type": "string"
+      },
+      "storageAccountAvailabilityWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "storageAccountAvailabilityAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "pipPacketsInDDoSEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "storageAccountAvailabilityThreshold": {
+        "defaultValue": "90",
+        "type": "string"
+      },
+      "storageAccountAvailabilityFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "kvLatencyAvailabilityAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "3",
+        "type": "String"
+      },
+      "kvAvailabilityEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT1M",
+        "type": "string"
+      },
+      "pipBytesInDDoSEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "rvBackupHealthMonitorPolicyEffect": {
+        "allowedValues": [
+          "modify",
+          "audit",
+          "disabled"
+        ],
+        "defaultValue": "modify",
+        "type": "string"
+      },
+      "kvLatencyAvailabilityPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled",
+        "type": "string"
+      },
+      "vnetddosAttackEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT1M",
+        "type": "string"
+      },
+      "pipdDoSAttackEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "kvLatencyAvailabilityAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "kvLatencyAvailabilityWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "pipvipAvailabilityAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "pipvipAvailabilityPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "kvLatencyAvailabilityThreshold": {
+        "defaultValue": "1000",
+        "type": "string"
+      },
+      "pipPacketsInDDoSAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "4",
+        "type": "String"
+      },
+      "kvCapacityEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT1M",
+        "type": "string"
+      },
+      "kvRequestEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "pipPacketsInDDoSPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled",
+        "type": "string"
+      },
+      "pipvipAvailabilityWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "pipvipAvailabilityAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "pipBytesInDDoSAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "4",
+        "type": "String"
+      },
+      "pipvipAvailabilityThreshold": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "kvAvailabilityAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "vnetddosAttackAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "activityNSGDeleteAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "activityUDRUpdateAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "activityKVDeleteAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "pipPacketsInDDoSAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "pipPacketsInDDoSWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "pipBytesInDDoSPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled",
+        "type": "string"
+      },
+      "vnetddosAttackPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "kvAvailabilityPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled",
+        "type": "string"
+      },
+      "pipdDoSAttackAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "pipPacketsInDDoSThreshold": {
+        "defaultValue": "40000",
+        "type": "string"
+      },
+      "pipdDoSAttackPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "kvAvailabilityAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "pipBytesInDDoSAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "pipBytesInDDoSWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vnetddosAttackWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vnetddosAttackAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "kvAvailabilityWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT1M",
+        "type": "string"
+      },
+      "kvCapacityAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "kvAvailabilityThreshold": {
+        "defaultValue": "20",
+        "type": "string"
+      },
+      "pipdDoSAttackAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "pipdDoSAttackWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vnetddosAttackThreshold": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "pipBytesInDDoSThreshold": {
+        "defaultValue": "8000000",
+        "type": "string"
+      },
+      "kvRequestAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "pipdDoSAttackThreshold": {
+        "defaultValue": "0",
+        "type": "string"
+      },
+      "kvCapacityPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled",
+        "type": "string"
+      },
+      "kvRequestPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled",
+        "type": "string"
+      },
+      "kvCapacityAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "kvCapacityWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "kvRequestWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "kvCapacityThreshold": {
+        "defaultValue": "75",
+        "type": "string"
+      },
+      "kvRequestAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmNetworkInAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmNetworkInThreshold": {
+        "defaultValue": "10000000",
+        "type": "string"
+      },
+      "vmNetworkInOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "GreaterThan",
+        "type": "string"
+      },
+      "vmNetworkInTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmNetworkInEvaluationPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmNetworkInFailingPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmNetworkInComputersToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmNetworkInNetworkInterfaceToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmNetworkOutAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmNetworkOutWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmNetworkOutEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmNetworkOutAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmNetworkOutAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmNetworkOutAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmNetworkOutPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmNetworkOutAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmNetworkOutThreshold": {
+        "defaultValue": "10000000",
+        "type": "string"
+      },
+      "vmNetworkOutOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "GreaterThan",
+        "type": "string"
+      },
+      "vmNetworkOutTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmNetworkOutEvaluationPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmNetworkOutFailingPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmNetworkOutComputersToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmNetworkOutNetworkInterfaceToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmInsightsAlertResourceGroupName": {
+        "defaultValue": "AlzMonitoring-rg",
+        "type": "string"
+      },
+      "vmInsightsAlertResourceGroupTags": {
+        "defaultValue": {
+          "environment": "test"
+        },
+        "type": "object"
+      },
+      "vmosDiskReadLatencyAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmosDiskReadLatencyWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyThreshold": {
+        "defaultValue": "30",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "LessThan",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyEvaluationPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyFailingPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmosDiskReadLatencyComputersToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmosDiskReadLatencyDisksToInclude": {
+        "defaultValue": [
+          "C:",
+          "/"
+        ],
+        "type": "array"
+      },
+      "vmosDiskWriteLatencyAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmosDiskWriteLatencyWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyThreshold": {
+        "defaultValue": "50",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "LessThan",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyEvaluationPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyFailingPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmosDiskWriteLatencyComputersToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmosDiskWriteLatencyDisksToInclude": {
+        "defaultValue": [
+          "C:",
+          "/"
+        ],
+        "type": "array"
+      },
+      "vmosDiskSpaceAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmosDiskSpaceWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmosDiskSpaceEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmosDiskSpaceAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmosDiskSpaceAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmosDiskSpaceAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmosDiskSpacePolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmosDiskSpaceAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmosDiskSpaceThreshold": {
+        "defaultValue": "10",
+        "type": "string"
+      },
+      "vmosDiskSpaceOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "LessThan",
+        "type": "string"
+      },
+      "vmosDiskSpaceTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmosDiskSpaceEvaluationPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmosDiskSpaceFailingPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmosDiskSpaceComputersToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmosDiskSpaceDisksToInclude": {
+        "defaultValue": [
+          "C:",
+          "/"
+        ],
+        "type": "array"
+      },
+      "vmPercentCPUAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmPercentCPUWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmPercentCPUEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmPercentCPUAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmPercentCPUAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmPercentCPUAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmPercentCPUPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmPercentCPUAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmPercentCPUThreshold": {
+        "defaultValue": "85",
+        "type": "string"
+      },
+      "vmPercentCPUOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "GreaterThan",
+        "type": "string"
+      },
+      "vmPercentCPUTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmPercentMemoryAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmPercentMemoryWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmPercentMemoryEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmPercentMemoryAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmPercentMemoryAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmPercentMemoryAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmPercentMemoryPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmPercentMemoryAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmPercentMemoryThreshold": {
+        "defaultValue": "10",
+        "type": "string"
+      },
+      "vmPercentMemoryOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "LessThan",
+        "type": "string"
+      },
+      "vmInsightsAlertResourceGroupLocation": {
+        "defaultValue": "centralus",
+        "type": "string"
+      },
+      "vmDataDiskSpaceAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmDataDiskSpaceWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmDataDiskSpaceEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmDataDiskSpaceAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmDataDiskSpaceAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmDataDiskSpaceAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmDataDiskSpacePolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmDataDiskSpaceAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmDataDiskSpaceThreshold": {
+        "defaultValue": "10",
+        "type": "string"
+      },
+      "vmDataDiskSpaceTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmDataDiskSpaceEvaluationPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmDataDiskSpaceFailingPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmDataDiskSpaceDisksToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmDataDiskReadLatencyAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmDataDiskReadLatencyWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyThreshold": {
+        "defaultValue": "30",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "LessThan",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyEvaluationPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyFailingPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmDataDiskReadLatencyComputersToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmDataDiskReadLatencyDisksToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmDataDiskWriteLatencyAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmDataDiskWriteLatencyWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyThreshold": {
+        "defaultValue": "30",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "LessThan",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyEvaluationPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyFailingPeriods": {
+        "defaultValue": "1",
+        "type": "string"
+      },
+      "vmDataDiskWriteLatencyComputersToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmDataDiskWriteLatencyDisksToInclude": {
+        "defaultValue": [
+          "*"
+        ],
+        "type": "array"
+      },
+      "vmDataDiskSpaceOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "LessThan",
+        "type": "string"
+      },
+      "vmPercentMemoryTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmHeartBeatRGAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "vmHeartBeatRGWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmHeartBeatRGEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmHeartBeatRGAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmHeartBeatRGAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmHeartBeatRGAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmHeartBeatRGPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      },
+      "vmHeartBeatRGAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmHeartBeatRGThreshold": {
+        "defaultValue": "10",
+        "type": "string"
+      },
+      "vmHeartBeatRGOperator": {
+        "allowedValues": [
+          "Equals",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "LessThan",
+          "LessThanOrEqual"
+        ],
+        "defaultValue": "GreaterThan",
+        "type": "string"
+      },
+      "vmHeartBeatRGTimeAggregation": {
+        "allowedValues": [
+          "Average",
+          "Count",
+          "Maximum",
+          "Minimum",
+          "Total"
+        ],
+        "defaultValue": "Average",
+        "type": "string"
+      },
+      "vmNetworkInAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
+      },
+      "vmNetworkInWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "type": "string"
+      },
+      "vmNetworkInEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "vmNetworkInAutoMitigate": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmNetworkInAutoResolve": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "vmNetworkInAutoResolveTime": {
+        "defaultValue": "00:10:00",
+        "type": "string"
+      },
+      "vmNetworkInPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "type": "string"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "ALZ_KVRequest",
+        "policyDefinitionName": "Deploy_KeyVault_Requests_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[parameters('KVRequestAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('KVRequestAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('KVRequestEvaluationFrequency')]"
+          },
+          "windowSize": {
+            "value": "[parameters('KVRequestWindowSize')]"
+          },
+          "effect": {
+            "value": "[parameters('KVRequestPolicyEffect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_KvAvailability",
+        "policyDefinitionName": "Deploy_KeyVault_Availability_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('KvAvailabilityWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('KvAvailabilityAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('KvAvailabilityAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('KvAvailabilityEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('KvAvailabilityPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('KVAvailabilityThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_KvLatencyAvailability",
+        "policyDefinitionName": "Deploy_KeyVault_Latency_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('KvLatencyAvailabilityWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('KvLatencyAvailabilityAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('KvLatencyAvailabilityAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('KvLatencyAvailabilityEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('KvLatencyAvailabilityPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('KvLatencyAvailabilityThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_KVCapacity",
+        "policyDefinitionName": "Deploy_KeyVault_Capacity_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('KVCapacityWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('KVCapacityAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('KVCapacityAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('KVCapacityEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('KVCapacityPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('KVCapacityThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_activityKVDelete",
+        "policyDefinitionName": "Deploy_activitylog_KeyVault_Delete",
+        "parameters": {
+          "enabled": {
+            "value": "[parameters('activityKVDeleteAlertState')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_StorageAccountAvailability",
+        "policyDefinitionName": "Deploy_StorageAccount_Availability_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('StorageAccountAvailabilityWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('StorageAccountAvailabilityAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('StorageAccountAvailabilityAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('StorageAccountAvailabilityFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('StorageAccountAvailabilityPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('StorageAccountAvailabilityThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_PIPBytesInDDoS",
+        "policyDefinitionName": "Deploy_PublicIp_BytesInDDoSAttack_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('PIPBytesInDDoSWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('PIPBytesInDDoSAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('PIPBytesInDDoSAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('PIPBytesInDDoSEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('PIPBytesInDDoSPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('PIPBytesInDDoSThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_PIPDDoSAttack",
+        "policyDefinitionName": "Deploy_PublicIp_DDoSAttack_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('PIPDDoSAttackWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('PIPDDoSAttackAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('PIPDDoSAttackAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('PIPDDoSAttackEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('PIPDDoSAttackPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('PIPDDoSAttackThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_PIPPacketsInDDoS",
+        "policyDefinitionName": "Deploy_PublicIp_PacketsInDDoSAttack_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('PIPPacketsInDDoSWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('PIPPacketsInDDoSAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('PIPPacketsInDDoSAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('PIPPacketsInDDoSEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('PIPPacketsInDDoSPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('PIPPacketsInDDoSThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_PIPVIPAvailability",
+        "policyDefinitionName": "Deploy_PublicIp_VIPAvailability_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('PIPVIPAvailabilityWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('PIPVIPAvailabilityAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('PIPVIPAvailabilityAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('PIPVIPAvailabilityEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('PIPVIPAvailabilityPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('PIPVIPAvailabilityThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_activityNSGDelete",
+        "policyDefinitionName": "Deploy_activitylog_NSG_Delete",
+        "parameters": {
+          "enabled": {
+            "value": "[parameters('activityNSGDeleteAlertState')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_activityUDRUpdate",
+        "policyDefinitionName": "Deploy_activitylog_RouteTable_Update",
+        "parameters": {
+          "enabled": {
+            "value": "[parameters('activityUDRUpdateAlertState')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_RVBackupHealthMonitor",
+        "policyDefinitionName": "Deploy_RecoveryVault_BackupHealthMonitor_Alert",
+        "parameters": {
+          "effect": {
+            "value": "[parameters('RVBackupHealthMonitorPolicyEffect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VNETDDOSAttack",
+        "policyDefinitionName": "Deploy_VNET_DDoSAttack_Alert",
+        "parameters": {
+          "windowSize": {
+            "value": "[parameters('VNETDDOSAttackWindowSize')]"
+          },
+          "severity": {
+            "value": "[parameters('VNETDDOSAttackAlertSeverity')]"
+          },
+          "enabled": {
+            "value": "[parameters('VNETDDOSAttackAlertState')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VNETDDOSAttackEvaluationFrequency')]"
+          },
+          "effect": {
+            "value": "[parameters('VNETDDOSAttackPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VNETDDOSAttackThreshold')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMHeartBeatRG",
+        "policyDefinitionName": "Deploy_VM_HeartBeat_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[parameters('VMHeartBeatRGAlertSeverity')]"
+          },
+          "effect": {
+            "value": "[parameters('VMHeartBeatRGPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMHeartBeatRGThreshold')]"
+          },
+          "operator": {
+            "value": "[parameters('VMHeartBeatRGOperator')]"
+          },
+          "autoResolveTime": {
+            "value": "[parameters('VMHeartBeatRGAutoResolveTime')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMHeartBeatRGEvaluationFrequency')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMHeartBeatRGAutoResolve')]"
+          },
+          "enabled": {
+            "value": "[parameters('VMHeartBeatRGAlertState')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMHeartBeatRGAutoMitigate')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMHeartBeatRGWindowSize')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMHeartBeatRGTimeAggregation')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMNetworkIn",
+        "policyDefinitionName": "Deploy_VM_NetworkIn_Alert",
+        "parameters": {
+          "autoResolveTime": {
+            "value": "[parameters('VMNetworkInAutoResolveTime')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "effect": {
+            "value": "[parameters('VMNetworkInPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMNetworkInThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[parameters('VMNetworkInFailingPeriods')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMNetworkInEvaluationFrequency')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMNetworkInWindowSize')]"
+          },
+          "computersToInclude": {
+            "value": "[parameters('VMNetworkInComputersToInclude')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMNetworkInAutoMitigate')]"
+          },
+          "evaluationPeriods": {
+            "value": "[parameters('VMNetworkInEvaluationPeriods')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMNetworkInTimeAggregation')]"
+          },
+          "enabled": {
+            "value": "[parameters('VMNetworkInAlertState')]"
+          },
+          "operator": {
+            "value": "[parameters('VMNetworkInOperator')]"
+          },
+          "severity": {
+            "value": "[parameters('VMNetworkInAlertSeverity')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMNetworkInAutoResolve')]"
+          },
+          "networkInterfacesToInclude": {
+            "value": "[parameters('VMNetworkInNetworkInterfaceToInclude')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMNetworkOut",
+        "policyDefinitionName": "Deploy_VM_NetworkOut_Alert",
+        "parameters": {
+          "autoResolveTime": {
+            "value": "[parameters('VMNetworkOutAutoResolveTime')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "effect": {
+            "value": "[parameters('VMNetworkOutPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMNetworkOutThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[parameters('VMNetworkOutFailingPeriods')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMNetworkOutEvaluationFrequency')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMNetworkOutWindowSize')]"
+          },
+          "computersToInclude": {
+            "value": "[parameters('VMNetworkOutComputersToInclude')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMNetworkOutAutoMitigate')]"
+          },
+          "evaluationPeriods": {
+            "value": "[parameters('VMNetworkOutEvaluationPeriods')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMNetworkOutTimeAggregation')]"
+          },
+          "enabled": {
+            "value": "[parameters('VMNetworkOutAlertState')]"
+          },
+          "operator": {
+            "value": "[parameters('VMNetworkOutOperator')]"
+          },
+          "severity": {
+            "value": "[parameters('VMNetworkOutAlertSeverity')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMNetworkOutAutoResolve')]"
+          },
+          "networkInterfacesToInclude": {
+            "value": "[parameters('VMNetworkOutNetworkInterfaceToInclude')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMOSDiskReadLatency",
+        "policyDefinitionName": "Deploy_VM_OSDiskreadLatency_Alert",
+        "parameters": {
+          "autoResolveTime": {
+            "value": "[parameters('VMOSDiskReadLatencyAutoResolveTime')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "effect": {
+            "value": "[parameters('VMOSDiskReadLatencyPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMOSDiskReadLatencyThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[parameters('VMOSDiskReadLatencyFailingPeriods')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "disksToInclude": {
+            "value": "[parameters('VMOSDiskReadLatencyDisksToInclude')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMOSDiskReadLatencyEvaluationFrequency')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMOSDiskReadLatencyWindowSize')]"
+          },
+          "computersToInclude": {
+            "value": "[parameters('VMOSDiskReadLatencyComputersToInclude')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMOSDiskReadLatencyAutoMitigate')]"
+          },
+          "evaluationPeriods": {
+            "value": "[parameters('VMOSDiskReadLatencyEvaluationPeriods')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMOSDiskReadLatencyTimeAggregation')]"
+          },
+          "enabled": {
+            "value": "[parameters('VMOSDiskReadLatencyAlertState')]"
+          },
+          "operator": {
+            "value": "[parameters('VMOSDiskReadLatencyOperator')]"
+          },
+          "severity": {
+            "value": "[parameters('VMOSDiskReadLatencyAlertSeverity')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMOSDiskReadLatencyAutoResolve')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMOSDiskWriteLatency",
+        "policyDefinitionName": "Deploy_VM_OSDiskwriteLatency_Alert",
+        "parameters": {
+          "autoResolveTime": {
+            "value": "[parameters('VMOSDiskWriteLatencyAutoResolveTime')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "effect": {
+            "value": "[parameters('VMOSDiskWriteLatencyPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMOSDiskWriteLatencyThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[parameters('VMOSDiskWriteLatencyFailingPeriods')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "disksToInclude": {
+            "value": "[parameters('VMOSDiskWriteLatencyDisksToInclude')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMOSDiskWriteLatencyEvaluationFrequency')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMOSDiskWriteLatencyWindowSize')]"
+          },
+          "computersToInclude": {
+            "value": "[parameters('VMOSDiskWriteLatencyComputersToInclude')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMOSDiskWriteLatencyAutoMitigate')]"
+          },
+          "evaluationPeriods": {
+            "value": "[parameters('VMOSDiskWriteLatencyEvaluationPeriods')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMOSDiskWriteLatencyTimeAggregation')]"
+          },
+          "enabled": {
+            "value": "[parameters('VMOSDiskWriteLatencyAlertState')]"
+          },
+          "operator": {
+            "value": "[parameters('VMOSDiskWriteLatencyOperator')]"
+          },
+          "severity": {
+            "value": "[parameters('VMOSDiskWriteLatencyAlertSeverity')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMOSDiskWriteLatencyAutoResolve')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMOSDiskSpace",
+        "policyDefinitionName": "Deploy_VM_OSDiskSpace_Alert",
+        "parameters": {
+          "autoResolveTime": {
+            "value": "[parameters('VMOSDiskSpaceAutoResolveTime')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "effect": {
+            "value": "[parameters('VMOSDiskSpacePolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMOSDiskSpaceThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[parameters('VMOSDiskSpaceFailingPeriods')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "disksToInclude": {
+            "value": "[parameters('VMOSDiskSpaceDisksToInclude')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMOSDiskSpaceEvaluationFrequency')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMOSDiskSpaceWindowSize')]"
+          },
+          "computersToInclude": {
+            "value": "[parameters('VMOSDiskSpaceComputersToInclude')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMOSDiskSpaceAutoMitigate')]"
+          },
+          "evaluationPeriods": {
+            "value": "[parameters('VMOSDiskSpaceEvaluationPeriods')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMOSDiskSpaceTimeAggregation')]"
+          },
+          "enabled": {
+            "value": "[parameters('VMOSDiskSpaceAlertState')]"
+          },
+          "operator": {
+            "value": "[parameters('VMOSDiskSpaceOperator')]"
+          },
+          "severity": {
+            "value": "[parameters('VMOSDiskSpaceAlertSeverity')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMOSDiskSpaceAutoResolve')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMPercentCPU",
+        "policyDefinitionName": "Deploy_VM_CPU_Alert",
+        "parameters": {
+          "enabled": {
+            "value": "[parameters('VMPercentCPUAlertState')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "severity": {
+            "value": "[parameters('VMPercentCPUAlertSeverity')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMPercentCPUAutoResolve')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMPercentCPUWindowSize')]"
+          },
+          "effect": {
+            "value": "[parameters('VMPercentCPUPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMPercentCPUThreshold')]"
+          },
+          "autoResolveTime": {
+            "value": "[parameters('VMPercentCPUAutoResolveTime')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMPercentCPUTimeAggregation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMPercentCPUEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMPercentCPUAutoMitigate')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "operator": {
+            "value": "[parameters('VMPercentCPUOperator')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMPercentMemory",
+        "policyDefinitionName": "Deploy_VM_Memory_Alert",
+        "parameters": {
+          "enabled": {
+            "value": "[parameters('VMPercentMemoryAlertState')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "severity": {
+            "value": "[parameters('VMPercentMemoryAlertSeverity')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMPercentMemoryAutoResolve')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMPercentMemoryWindowSize')]"
+          },
+          "effect": {
+            "value": "[parameters('VMPercentMemoryPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMPercentMemoryThreshold')]"
+          },
+          "autoResolveTime": {
+            "value": "[parameters('VMPercentMemoryAutoResolveTime')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMPercentMemoryTimeAggregation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMPercentMemoryEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMPercentMemoryAutoMitigate')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "operator": {
+            "value": "[parameters('VMPercentMemoryOperator')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMDataDiskSpace",
+        "policyDefinitionName": "Deploy_VM_dataDiskSpace_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[parameters('VMDataDiskSpaceAlertSeverity')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMDataDiskSpaceThreshold')]"
+          },
+          "disksToInclude": {
+            "value": "[parameters('VMDataDiskSpaceDisksToInclude')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMDataDiskSpaceTimeAggregation')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "evaluationPeriods": {
+            "value": "[parameters('VMDataDiskSpaceEvaluationPeriods')]"
+          },
+          "autoResolveTime": {
+            "value": "[parameters('VMDataDiskSpaceAutoResolveTime')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMDataDiskSpaceWindowSize')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMDataDiskSpaceEvaluationFrequency')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMDataDiskSpaceAutoResolve')]"
+          },
+          "enabled": {
+            "value": "[parameters('VMDataDiskSpaceAlertState')]"
+          },
+          "operator": {
+            "value": "[parameters('VMDataDiskSpaceOperator')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          },
+          "failingPeriods": {
+            "value": "[parameters('VMDataDiskSpaceFailingPeriods')]"
+          },
+          "effect": {
+            "value": "[parameters('VMDataDiskSpacePolicyEffect')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMDataDiskSpaceAutoMitigate')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMDataDiskReadLatency",
+        "policyDefinitionName": "Deploy_VM_dataDiskReadLatency_Alert",
+        "parameters": {
+          "autoResolveTime": {
+            "value": "[parameters('VMDataDiskReadLatencyAutoResolveTime')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "effect": {
+            "value": "[parameters('VMDataDiskReadLatencyPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMDataDiskReadLatencyThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[parameters('VMDataDiskReadLatencyFailingPeriods')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "disksToInclude": {
+            "value": "[parameters('VMDataDiskReadLatencyDisksToInclude')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMDataDiskReadLatencyEvaluationFrequency')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMDataDiskReadLatencyWindowSize')]"
+          },
+          "computersToInclude": {
+            "value": "[parameters('VMDataDiskReadLatencyComputersToInclude')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMDataDiskReadLatencyAutoMitigate')]"
+          },
+          "evaluationPeriods": {
+            "value": "[parameters('VMDataDiskReadLatencyEvaluationPeriods')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMDataDiskReadLatencyTimeAggregation')]"
+          },
+          "enabled": {
+            "value": "[parameters('VMDataDiskReadLatencyAlertState')]"
+          },
+          "operator": {
+            "value": "[parameters('VMDataDiskReadLatencyOperator')]"
+          },
+          "severity": {
+            "value": "[parameters('VMDataDiskReadLatencyAlertSeverity')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMDataDiskReadLatencyAutoResolve')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_VMDataDiskWriteLatency",
+        "policyDefinitionName": "Deploy_VM_dataDiskWriteLatency_Alert",
+        "parameters": {
+          "autoResolveTime": {
+            "value": "[parameters('VMDataDiskWriteLatencyAutoResolveTime')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('VMInsightsAlertResourceGroupLocation')]"
+          },
+          "effect": {
+            "value": "[parameters('VMDataDiskWriteLatencyPolicyEffect')]"
+          },
+          "threshold": {
+            "value": "[parameters('VMDataDiskWriteLatencyThreshold')]"
+          },
+          "failingPeriods": {
+            "value": "[parameters('VMDataDiskWriteLatencyFailingPeriods')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('VMInsightsAlertResourceGroupName')]"
+          },
+          "disksToInclude": {
+            "value": "[parameters('VMDataDiskWriteLatencyDisksToInclude')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('VMDataDiskWriteLatencyEvaluationFrequency')]"
+          },
+          "windowSize": {
+            "value": "[parameters('VMDataDiskWriteLatencyWindowSize')]"
+          },
+          "computersToInclude": {
+            "value": "[parameters('VMDataDiskWriteLatencyComputersToInclude')]"
+          },
+          "autoMitigate": {
+            "value": "[parameters('VMDataDiskWriteLatencyAutoMitigate')]"
+          },
+          "evaluationPeriods": {
+            "value": "[parameters('VMDataDiskWriteLatencyEvaluationPeriods')]"
+          },
+          "timeAggregation": {
+            "value": "[parameters('VMDataDiskWriteLatencyTimeAggregation')]"
+          },
+          "enabled": {
+            "value": "[parameters('VMDataDiskWriteLatencyAlertState')]"
+          },
+          "operator": {
+            "value": "[parameters('VMDataDiskWriteLatencyOperator')]"
+          },
+          "severity": {
+            "value": "[parameters('VMDataDiskWriteLatencyAlertSeverity')]"
+          },
+          "autoResolve": {
+            "value": "[parameters('VMDataDiskWriteLatencyAutoResolve')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('VMInsightsAlertResourceGroupTags')]"
+          }
+        }
+      }
+    ]
+  }
+}
