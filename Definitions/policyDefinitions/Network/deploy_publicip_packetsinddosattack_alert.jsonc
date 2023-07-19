@@ -5,13 +5,13 @@
     "description": "Policy to audit/deploy PIP Packets in DDoS Attack Alert",
     "mode": "All",
     "metadata": {
-      "source": "https://github.com/Azure/Enterprise-Scale/",
-      "version": "1.0.1",
+      "_deployed_by_alz_monitor": "True",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_alz_monitor": "True",
-      "category": "Network"
+      "source": "https://github.com/Azure/Enterprise-Scale/",
+      "category": "Network",
+      "version": "1.0.1"
     },
     "parameters": {
       "evaluationFrequency": {
@@ -22,11 +22,11 @@
           "PT30M",
           "PT1H"
         ],
+        "defaultValue": "PT5M",
         "metadata": {
           "description": "Evaluation frequency for the alert",
           "displayName": "Evaluation Frequency"
         },
-        "defaultValue": "PT5M",
         "type": "String"
       },
       "autoMitigate": {
@@ -34,11 +34,23 @@
           "true",
           "false"
         ],
+        "defaultValue": "true",
         "metadata": {
           "description": "Auto Mitigate for the alert",
           "displayName": "Auto Mitigate"
         },
+        "type": "String"
+      },
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
         "defaultValue": "true",
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
+        },
         "type": "String"
       },
       "windowSize": {
@@ -52,23 +64,11 @@
           "PT12H",
           "P1D"
         ],
+        "defaultValue": "PT5M",
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
         },
-        "defaultValue": "PT5M",
-        "type": "String"
-      },
-      "enabled": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
-        },
-        "defaultValue": "true",
         "type": "String"
       },
       "severity": {
@@ -79,19 +79,27 @@
           "3",
           "4"
         ],
+        "defaultValue": "4",
         "metadata": {
           "description": "Severity of the Alert",
           "displayName": "Severity"
         },
-        "defaultValue": "4",
         "type": "String"
       },
       "threshold": {
+        "defaultValue": "40000",
         "metadata": {
           "description": "Threshold for the alert",
           "displayName": "Threshold"
         },
-        "defaultValue": "40000",
+        "type": "String"
+      },
+      "monitorDisable": {
+        "defaultValue": "MonitorDisable",
+        "metadata": {
+          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled",
+          "displayName": "Effect"
+        },
         "type": "String"
       },
       "effect": {
@@ -99,19 +107,11 @@
           "deployIfNotExists",
           "disabled"
         ],
+        "defaultValue": "disabled",
         "metadata": {
           "description": "Effect of the policy",
           "displayName": "Effect"
         },
-        "defaultValue": "disabled",
-        "type": "String"
-      },
-      "monitorDisable": {
-        "metadata": {
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled",
-          "displayName": "Effect"
-        },
-        "defaultValue": "MonitorDisable",
         "type": "String"
       }
     },
@@ -119,8 +119,8 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Network/publicIPAddresses",
-            "field": "type"
+            "field": "type",
+            "equals": "Microsoft.Network/publicIPAddresses"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -132,29 +132,29 @@
         "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Insights/metricAlerts",
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Microsoft.Network/publicIPAddresses",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
+                "equals": "Microsoft.Network/publicIPAddresses"
               },
               {
-                "equals": "PacketsInDDoS",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricName"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricName",
+                "equals": "PacketsInDDoS"
               },
               {
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', field('fullName'))]",
-                "field": "Microsoft.Insights/metricalerts/scopes[*]"
+                "field": "Microsoft.Insights/metricalerts/scopes[*]",
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', field('fullName'))]"
               },
               {
-                "equals": "[parameters('enabled')]",
-                "field": "Microsoft.Insights/metricAlerts/enabled"
+                "field": "Microsoft.Insights/metricAlerts/enabled",
+                "equals": "[parameters('enabled')]"
               }
             ]
           },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "deployment": {
             "properties": {
               "parameters": {
@@ -167,11 +167,11 @@
                 "autoMitigate": {
                   "value": "[parameters('autoMitigate')]"
                 },
-                "windowSize": {
-                  "value": "[parameters('windowSize')]"
-                },
                 "enabled": {
                   "value": "[parameters('enabled')]"
+                },
+                "windowSize": {
+                  "value": "[parameters('windowSize')]"
                 },
                 "severity": {
                   "value": "[parameters('severity')]"
@@ -198,10 +198,10 @@
                   "autoMitigate": {
                     "type": "String"
                   },
-                  "windowSize": {
+                  "enabled": {
                     "type": "String"
                   },
-                  "enabled": {
+                  "windowSize": {
                     "type": "String"
                   },
                   "severity": {
@@ -224,6 +224,7 @@
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
                       "description": "Metric Alert for Public IP Address Packets IN DDOS",
+                      "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "parameters": {
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
@@ -231,11 +232,11 @@
                         "autoMitigate": {
                           "value": "[parameters('autoMitigate')]"
                         },
-                        "windowSize": {
-                          "value": "[parameters('windowSize')]"
-                        },
                         "enabled": {
                           "value": "[parameters('enabled')]"
+                        },
+                        "windowSize": {
+                          "value": "[parameters('windowSize')]"
                         },
                         "severity": {
                           "value": "[parameters('severity')]"
@@ -244,10 +245,9 @@
                           "value": "[parameters('threshold')]"
                         }
                       },
-                      "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "autoMitigate": "[parameters('autoMitigate')]",
-                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "severity": "[parameters('severity')]",
                       "criteria": {
                         "allOf": [

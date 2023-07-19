@@ -5,32 +5,16 @@
     "description": "Policy to audit/deploy VPN Gateway Ingress Packet Drop Count Alert",
     "mode": "All",
     "metadata": {
-      "source": "https://github.com/Azure/Enterprise-Scale/",
-      "version": "1.0.1",
+      "_deployed_by_alz_monitor": "True",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_alz_monitor": "True",
-      "category": "Network"
+      "source": "https://github.com/Azure/Enterprise-Scale/",
+      "category": "Network",
+      "version": "1.0.1"
     },
     "parameters": {
-      "enabled": {
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
-        },
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "type": "String"
-      },
       "evaluationFrequency": {
-        "metadata": {
-          "description": "Evaluation frequency for the alert",
-          "displayName": "Evaluation Frequency"
-        },
         "allowedValues": [
           "PT1M",
           "PT5M",
@@ -39,25 +23,37 @@
           "PT1H"
         ],
         "defaultValue": "PT5M",
+        "metadata": {
+          "description": "Evaluation frequency for the alert",
+          "displayName": "Evaluation Frequency"
+        },
         "type": "String"
       },
       "autoMitigate": {
-        "metadata": {
-          "description": "Auto Mitigate for the alert",
-          "displayName": "Auto Mitigate"
-        },
         "allowedValues": [
           "true",
           "false"
         ],
         "defaultValue": "true",
+        "metadata": {
+          "description": "Auto Mitigate for the alert",
+          "displayName": "Auto Mitigate"
+        },
+        "type": "String"
+      },
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
+        },
         "type": "String"
       },
       "windowSize": {
-        "metadata": {
-          "description": "Window size for the alert",
-          "displayName": "Window Size"
-        },
         "allowedValues": [
           "PT1M",
           "PT5M",
@@ -69,13 +65,13 @@
           "P1D"
         ],
         "defaultValue": "PT5M",
+        "metadata": {
+          "description": "Window size for the alert",
+          "displayName": "Window Size"
+        },
         "type": "String"
       },
       "severity": {
-        "metadata": {
-          "description": "Severity of the Alert",
-          "displayName": "Severity"
-        },
         "allowedValues": [
           "0",
           "1",
@@ -84,26 +80,30 @@
           "4"
         ],
         "defaultValue": "3",
+        "metadata": {
+          "description": "Severity of the Alert",
+          "displayName": "Severity"
+        },
+        "type": "String"
+      },
+      "monitorDisable": {
+        "defaultValue": "MonitorDisable",
+        "metadata": {
+          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled",
+          "displayName": "Effect"
+        },
         "type": "String"
       },
       "effect": {
-        "metadata": {
-          "description": "Effect of the policy",
-          "displayName": "Effect"
-        },
         "allowedValues": [
           "deployIfNotExists",
           "disabled"
         ],
         "defaultValue": "deployIfNotExists",
-        "type": "String"
-      },
-      "monitorDisable": {
         "metadata": {
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled",
+          "description": "Effect of the policy",
           "displayName": "Effect"
         },
-        "defaultValue": "MonitorDisable",
         "type": "String"
       }
     },
@@ -111,8 +111,8 @@
       "if": {
         "allOf": [
           {
-            "equals": "microsoft.network/vpngateways",
-            "field": "type"
+            "field": "type",
+            "equals": "microsoft.network/vpngateways"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -127,20 +127,20 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "microsoft.network/vpngateways",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
+                "equals": "microsoft.network/vpngateways"
               },
               {
-                "equals": "TunnelIngressPacketDropCount",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName",
+                "equals": "TunnelIngressPacketDropCount"
               },
               {
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/microsoft.network/vpngateways/', field('fullName'))]",
-                "field": "Microsoft.Insights/metricalerts/scopes[*]"
+                "field": "Microsoft.Insights/metricalerts/scopes[*]",
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/microsoft.network/vpngateways/', field('fullName'))]"
               },
               {
-                "equals": "[parameters('enabled')]",
-                "field": "Microsoft.Insights/metricAlerts/enabled"
+                "field": "Microsoft.Insights/metricAlerts/enabled",
+                "equals": "[parameters('enabled')]"
               }
             ]
           },
@@ -153,14 +153,14 @@
                 "resourceId": {
                   "value": "[field('id')]"
                 },
-                "enabled": {
-                  "value": "[parameters('enabled')]"
-                },
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
                 },
                 "autoMitigate": {
                   "value": "[parameters('autoMitigate')]"
+                },
+                "enabled": {
+                  "value": "[parameters('enabled')]"
                 },
                 "windowSize": {
                   "value": "[parameters('windowSize')]"
@@ -181,13 +181,13 @@
                     },
                     "type": "String"
                   },
-                  "enabled": {
-                    "type": "String"
-                  },
                   "evaluationFrequency": {
                     "type": "String"
                   },
                   "autoMitigate": {
+                    "type": "String"
+                  },
+                  "enabled": {
                     "type": "String"
                   },
                   "windowSize": {
@@ -205,21 +205,21 @@
                   }
                 },
                 "contentVersion": "1.0.0.0",
-                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
                       "description": "Metric Alert for VPN Gateway tunnel TunnelIngressPacketDropCount",
+                      "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "parameters": {
-                        "enabled": {
-                          "value": "[parameters('enabled')]"
-                        },
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
                         },
                         "autoMitigate": {
                           "value": "[parameters('autoMitigate')]"
+                        },
+                        "enabled": {
+                          "value": "[parameters('enabled')]"
                         },
                         "windowSize": {
                           "value": "[parameters('windowSize')]"
@@ -228,32 +228,31 @@
                           "value": "[parameters('severity')]"
                         }
                       },
-                      "enabled": "[parameters('enabled')]",
-                      "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "autoMitigate": "[parameters('autoMitigate')]",
+                      "enabled": "[parameters('enabled')]",
                       "windowSize": "[parameters('windowSize')]",
                       "severity": "[parameters('severity')]",
-                      "scopes": [
-                        "[parameters('resourceId')]"
-                      ],
                       "criteria": {
                         "allOf": [
                           {
-                            "name": "TunnelIngressPacketDropCount",
                             "timeAggregation": "Average",
-                            "criterionType": "DynamicThresholdCriterion",
-                            "alertSensitivity": "Medium",
                             "failingPeriods": {
                               "numberOfEvaluationPeriods": 4,
                               "minFailingPeriodsToAlert": 4
                             },
+                            "operator": "GreaterThan",
+                            "name": "TunnelIngressPacketDropCount",
                             "metricNamespace": "microsoft.network/vpngateways",
+                            "criterionType": "DynamicThresholdCriterion",
                             "metricName": "TunnelIngressPacketDropCount",
-                            "operator": "GreaterThan"
+                            "alertSensitivity": "Medium"
                           }
                         ],
                         "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
-                      }
+                      },
+                      "scopes": [
+                        "[parameters('resourceId')]"
+                      ]
                     },
                     "apiVersion": "2018-03-01",
                     "location": "global",
@@ -263,6 +262,7 @@
                     }
                   }
                 ],
+                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               },
               "mode": "incremental"

@@ -1,33 +1,25 @@
 {
-  "managedIdentityLocations": {
-    "alz-monitor": ""
-  },
   "parameters": {
-    "aaTotalJobAlertWindowSize": "PT5M",
-    "alzMonitorResourceGroupLocation": "eastus",
-    "storageAccountAvailabilityAlertState": "true",
-    "activityLAWKeyRegenAlertState": "true",
-    "rvBackupHealthMonitorPolicyEffect": "modify",
-    "activityLAWDeleteAlertState": "true",
-    "alzMonitorResourceGroupName": "rg-alz-monitor",
-    "storageAccountAvailabilityFrequency": "PT5M",
+    "storageAccountAvailabilityThreshold": "90",
     "alzMonitorResourceGroupTags": {
       "Project": "alz-monitor"
     },
-    "aaTotalJobAlertPolicyEffect": "deployIfNotExists",
-    "aaTotalJobAlertEvaluationFrequency": "PT1M",
-    "aaTotalJobAlertThreshold": "20",
-    "storageAccountAvailabilityWindowSize": "PT5M",
-    "storageAccountAvailabilityAlertSeverity": "1",
-    "aaTotalJobAlertAlertState": "true",
+    "alzMonitorResourceGroupName": "rg-alz-monitor",
+    "activityLAWDeleteAlertState": "true",
+    "storageAccountAvailabilityFrequency": "PT5M",
     "storageAccountAvailabilityPolicyEffect": "deployIfNotExists",
-    "aaTotalJobAlertSeverity": "2",
-    "storageAccountAvailabilityThreshold": "90"
-  },
-  "assignment": {
-    "name": "ALZ-Monitor_Management",
-    "displayName": "ALZ Monitoring Alerts for Management",
-    "description": "Initiative to deploy alerts relevant to the ALZ Management Management group"
+    "alzMonitorResourceGroupLocation": "eastus",
+    "aaTotalJobAlertThreshold": "20",
+    "aaTotalJobAlertAlertState": "true",
+    "activityLAWKeyRegenAlertState": "true",
+    "rvBackupHealthMonitorPolicyEffect": "modify",
+    "storageAccountAvailabilityAlertSeverity": "1",
+    "aaTotalJobAlertEvaluationFrequency": "PT1M",
+    "storageAccountAvailabilityAlertState": "true",
+    "storageAccountAvailabilityWindowSize": "PT5M",
+    "aaTotalJobAlertPolicyEffect": "deployIfNotExists",
+    "aaTotalJobAlertWindowSize": "PT5M",
+    "aaTotalJobAlertSeverity": "2"
   },
   "definitionEntry": {
     "policySetName": "Alerting-Management"
@@ -35,10 +27,18 @@
   "metadata": {
     "_deployed_by_alz_monitor": true
   },
+  "nodeName": "/root",
   "scope": {
     "alz-monitor": [
       "/providers/Microsoft.Management/managementGroups/alz-monitor-management"
     ]
   },
-  "nodeName": "/root"
+  "assignment": {
+    "description": "Initiative to deploy alerts relevant to the ALZ Management Management group",
+    "displayName": "ALZ Monitoring Alerts for Management",
+    "name": "ALZ-Monitor_Management"
+  },
+  "managedIdentityLocations": {
+    "alz-monitor": ""
+  }
 }
