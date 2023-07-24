@@ -1,27 +1,38 @@
 {
   "name": "Alerting-Identity",
   "properties": {
+    "displayName": "Deploy ALZ Identity alerts",
+    "description": "This policy set deploys select alert rules for ALZ identity resources. Aslo a basic action and alert processing rule is deployed",
     "metadata": {
-      "_deployed_by_alz_monitor": true,
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
+      "_deployed_by_alz_monitor": true,
+      "version": "1.0.2",
       "source": "https://github.com/Azure/Enterprise-Scale/",
-      "displayName": "Deploy ALZ Identity alerts",
-      "description": "This policy set deploys select alert rules for ALZ identity resources. Aslo a basic action and alert processing rule is deployed",
-      "category": "Monitoring",
-      "version": "1.0.1"
+      "category": "Monitoring"
     },
     "parameters": {
-      "kvLatencyAvailabilityEvaluationFrequency": {
-        "allowedValues": [
-          "PT1M",
-          "PT5M",
-          "PT15M",
-          "PT30M",
-          "PT1H"
-        ],
-        "defaultValue": "PT5M",
+      "alzMonitorResourceGroupLocation": {
+        "defaultValue": "centralus",
+        "type": "String"
+      },
+      "alzMonitorResourceGroupTags": {
+        "defaultValue": {
+          "_deployed_by_alz_monitor": true
+        },
+        "type": "Object"
+      },
+      "alzMonitorResourceGroupName": {
+        "defaultValue": "ALZ-Monitoring-RG",
+        "type": "String"
+      },
+      "kvAvailabilityAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "kvAvailabilityThreshold": {
+        "defaultValue": "20",
         "type": "string"
       },
       "kvLatencyAvailabilityAlertSeverity": {
@@ -33,33 +44,6 @@
           "4"
         ],
         "defaultValue": "3",
-        "type": "String"
-      },
-      "kvLatencyAvailabilityPolicyEffect": {
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "defaultValue": "disabled",
-        "type": "string"
-      },
-      "kvAvailabilityEvaluationFrequency": {
-        "allowedValues": [
-          "PT1M",
-          "PT5M",
-          "PT15M",
-          "PT30M",
-          "PT1H"
-        ],
-        "defaultValue": "PT1M",
-        "type": "string"
-      },
-      "kvLatencyAvailabilityAlertState": {
-        "defaultValue": "true",
-        "type": "string"
-      },
-      "alzMonitorResourceGroupLocation": {
-        "defaultValue": "centralus",
         "type": "String"
       },
       "kvLatencyAvailabilityWindowSize": {
@@ -76,22 +60,7 @@
         "defaultValue": "PT5M",
         "type": "string"
       },
-      "kvLatencyAvailabilityThreshold": {
-        "defaultValue": "1000",
-        "type": "string"
-      },
-      "kvCapacityEvaluationFrequency": {
-        "allowedValues": [
-          "PT1M",
-          "PT5M",
-          "PT15M",
-          "PT30M",
-          "PT1H"
-        ],
-        "defaultValue": "PT1M",
-        "type": "string"
-      },
-      "kvRequestEvaluationFrequency": {
+      "kvLatencyAvailabilityEvaluationFrequency": {
         "allowedValues": [
           "PT1M",
           "PT5M",
@@ -102,32 +71,7 @@
         "defaultValue": "PT5M",
         "type": "string"
       },
-      "alzMonitorResourceGroupName": {
-        "defaultValue": "ALZ-Monitoring-RG",
-        "type": "String"
-      },
-      "alzMonitorResourceGroupTags": {
-        "defaultValue": {
-          "_deployed_by_alz_monitor": true
-        },
-        "type": "Object"
-      },
-      "kvAvailabilityAlertSeverity": {
-        "allowedValues": [
-          "0",
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        "defaultValue": "1",
-        "type": "String"
-      },
-      "activityKVDeleteAlertState": {
-        "defaultValue": "true",
-        "type": "string"
-      },
-      "kvAvailabilityPolicyEffect": {
+      "kvLatencyAvailabilityPolicyEffect": {
         "allowedValues": [
           "deployIfNotExists",
           "disabled"
@@ -135,22 +79,12 @@
         "defaultValue": "disabled",
         "type": "string"
       },
-      "kvAvailabilityAlertState": {
+      "kvLatencyAvailabilityAlertState": {
         "defaultValue": "true",
         "type": "string"
       },
-      "kvAvailabilityWindowSize": {
-        "allowedValues": [
-          "PT1M",
-          "PT5M",
-          "PT15M",
-          "PT30M",
-          "PT1H",
-          "PT6H",
-          "PT12H",
-          "P1D"
-        ],
-        "defaultValue": "PT1M",
+      "kvLatencyAvailabilityThreshold": {
+        "defaultValue": "1000",
         "type": "string"
       },
       "kvCapacityAlertSeverity": {
@@ -163,37 +97,6 @@
         ],
         "defaultValue": "1",
         "type": "String"
-      },
-      "kvAvailabilityThreshold": {
-        "defaultValue": "20",
-        "type": "string"
-      },
-      "kvCapacityPolicyEffect": {
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "defaultValue": "disabled",
-        "type": "string"
-      },
-      "kvRequestAlertSeverity": {
-        "allowedValues": [
-          "0",
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        "defaultValue": "2",
-        "type": "String"
-      },
-      "kvRequestPolicyEffect": {
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "defaultValue": "disabled",
-        "type": "string"
       },
       "kvCapacityWindowSize": {
         "allowedValues": [
@@ -209,17 +112,47 @@
         "defaultValue": "PT5M",
         "type": "string"
       },
-      "kvCapacityAlertState": {
-        "defaultValue": "true",
+      "kvCapacityPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled",
         "type": "string"
       },
-      "kvRequestAlertState": {
+      "kvCapacityAlertState": {
         "defaultValue": "true",
         "type": "string"
       },
       "kvCapacityThreshold": {
         "defaultValue": "75",
         "type": "string"
+      },
+      "activityKVDeleteAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "kvCapacityEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT1M",
+        "type": "string"
+      },
+      "kvRequestAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "2",
+        "type": "String"
       },
       "kvRequestWindowSize": {
         "allowedValues": [
@@ -234,6 +167,73 @@
         ],
         "defaultValue": "PT5M",
         "type": "string"
+      },
+      "kvRequestEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "type": "string"
+      },
+      "kvRequestPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled",
+        "type": "string"
+      },
+      "kvRequestAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "kvAvailabilityAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "type": "String"
+      },
+      "kvAvailabilityWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT1M",
+        "type": "string"
+      },
+      "kvAvailabilityEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT1M",
+        "type": "string"
+      },
+      "kvAvailabilityPolicyEffect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "disabled",
+        "type": "string"
       }
     },
     "policyDefinitions": [
@@ -241,20 +241,20 @@
         "policyDefinitionReferenceId": "ALZ_KVRequest",
         "policyDefinitionName": "Deploy_KeyVault_Requests_Alert",
         "parameters": {
-          "evaluationFrequency": {
-            "value": "[parameters('KVRequestEvaluationFrequency')]"
-          },
           "effect": {
             "value": "[parameters('KVRequestPolicyEffect')]"
-          },
-          "enabled": {
-            "value": "[parameters('KVRequestAlertState')]"
           },
           "severity": {
             "value": "[parameters('KVRequestAlertSeverity')]"
           },
+          "evaluationFrequency": {
+            "value": "[parameters('KVRequestEvaluationFrequency')]"
+          },
           "windowSize": {
             "value": "[parameters('KVRequestWindowSize')]"
+          },
+          "enabled": {
+            "value": "[parameters('KVRequestAlertState')]"
           }
         }
       },
@@ -262,17 +262,17 @@
         "policyDefinitionReferenceId": "ALZ_KvAvailability",
         "policyDefinitionName": "Deploy_KeyVault_Availability_Alert",
         "parameters": {
-          "evaluationFrequency": {
-            "value": "[parameters('KvAvailabilityEvaluationFrequency')]"
+          "threshold": {
+            "value": "[parameters('KVAvailabilityThreshold')]"
           },
           "severity": {
             "value": "[parameters('KvAvailabilityAlertSeverity')]"
           },
+          "evaluationFrequency": {
+            "value": "[parameters('KvAvailabilityEvaluationFrequency')]"
+          },
           "effect": {
             "value": "[parameters('KvAvailabilityPolicyEffect')]"
-          },
-          "threshold": {
-            "value": "[parameters('KVAvailabilityThreshold')]"
           },
           "enabled": {
             "value": "[parameters('KvAvailabilityAlertState')]"
@@ -286,17 +286,17 @@
         "policyDefinitionReferenceId": "ALZ_KvLatencyAvailability",
         "policyDefinitionName": "Deploy_KeyVault_Latency_Alert",
         "parameters": {
-          "evaluationFrequency": {
-            "value": "[parameters('KvLatencyAvailabilityEvaluationFrequency')]"
+          "threshold": {
+            "value": "[parameters('KvLatencyAvailabilityThreshold')]"
           },
           "severity": {
             "value": "[parameters('KvLatencyAvailabilityAlertSeverity')]"
           },
+          "evaluationFrequency": {
+            "value": "[parameters('KvLatencyAvailabilityEvaluationFrequency')]"
+          },
           "effect": {
             "value": "[parameters('KvLatencyAvailabilityPolicyEffect')]"
-          },
-          "threshold": {
-            "value": "[parameters('KvLatencyAvailabilityThreshold')]"
           },
           "enabled": {
             "value": "[parameters('KvLatencyAvailabilityAlertState')]"
@@ -310,17 +310,17 @@
         "policyDefinitionReferenceId": "ALZ_KVCapacity",
         "policyDefinitionName": "Deploy_KeyVault_Capacity_Alert",
         "parameters": {
-          "evaluationFrequency": {
-            "value": "[parameters('KVCapacityEvaluationFrequency')]"
+          "threshold": {
+            "value": "[parameters('KVCapacityThreshold')]"
           },
           "severity": {
             "value": "[parameters('KVCapacityAlertSeverity')]"
           },
+          "evaluationFrequency": {
+            "value": "[parameters('KVCapacityEvaluationFrequency')]"
+          },
           "effect": {
             "value": "[parameters('KVCapacityPolicyEffect')]"
-          },
-          "threshold": {
-            "value": "[parameters('KVCapacityThreshold')]"
           },
           "enabled": {
             "value": "[parameters('KVCapacityAlertState')]"
@@ -337,14 +337,14 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
           "enabled": {
             "value": "[parameters('activityKVDeleteAlertState')]"
           },
           "alertResourceGroupLocation": {
             "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
           }
         }
       }
