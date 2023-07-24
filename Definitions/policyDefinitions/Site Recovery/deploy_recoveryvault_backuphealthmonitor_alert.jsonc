@@ -5,23 +5,15 @@
     "description": "Policy to audit/update Recovery Vault Backup Health Alerting to Azure monitor alerts",
     "mode": "All",
     "metadata": {
-      "_deployed_by_alz_monitor": "True",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
+      "_deployed_by_alz_monitor": "True",
+      "version": "1.0.0",
       "source": "https://github.com/Azure/Enterprise-Scale/",
-      "category": "Site Recovery",
-      "version": "1.0.0"
+      "category": "Site Recovery"
     },
     "parameters": {
-      "monitorDisable": {
-        "defaultValue": "MonitorDisable",
-        "metadata": {
-          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled",
-          "displayName": "Effect"
-        },
-        "type": "String"
-      },
       "effect": {
         "allowedValues": [
           "modify",
@@ -29,11 +21,19 @@
           "disabled"
         ],
         "defaultValue": "modify",
+        "type": "String",
         "metadata": {
           "description": "Effect of the policy",
           "displayName": "Effect"
-        },
-        "type": "String"
+        }
+      },
+      "monitorDisable": {
+        "defaultValue": "MonitorDisable",
+        "type": "String",
+        "metadata": {
+          "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled",
+          "displayName": "Effect"
+        }
       }
     },
     "policyRule": {
@@ -59,7 +59,6 @@
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
-          "conflictEffect": "audit",
           "operations": [
             {
               "value": "Disabled",
@@ -71,7 +70,8 @@
               "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllJobFailures",
               "operation": "addOrReplace"
             }
-          ]
+          ],
+          "conflictEffect": "audit"
         }
       }
     }
