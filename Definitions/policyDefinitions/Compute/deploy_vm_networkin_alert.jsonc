@@ -5,14 +5,27 @@
     "description": "Policy to audit/deploy VM Nework Read Alert",
     "mode": "All",
     "metadata": {
+      "_deployed_by_alz_monitor": "True",
+      "version": "1.0.1",
+      "category": "Compute",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "version": "1.0.0",
-      "source": "https://github.com/Azure/Enterprise-Scale/",
-      "category": "Compute"
+      "source": "https://github.com/Azure/Enterprise-Scale/"
     },
     "parameters": {
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
+        },
+        "type": "String"
+      },
       "evaluationFrequency": {
         "allowedValues": [
           "PT5M",
@@ -21,11 +34,11 @@
           "PT1H"
         ],
         "defaultValue": "PT5M",
-        "type": "String",
         "metadata": {
           "description": "Evaluation frequency for the alert",
           "displayName": "Evaluation Frequency"
-        }
+        },
+        "type": "String"
       },
       "autoMitigate": {
         "allowedValues": [
@@ -33,11 +46,19 @@
           "false"
         ],
         "defaultValue": "true",
-        "type": "String",
         "metadata": {
           "description": "Auto Mitigate for the alert",
           "displayName": "Auto Mitigate"
-        }
+        },
+        "type": "String"
+      },
+      "alertResourceGroupName": {
+        "defaultValue": "AlzMonitoring-rg",
+        "metadata": {
+          "description": "Resource group the alert is placed in",
+          "displayName": "Resource Group Name"
+        },
+        "type": "String"
       },
       "windowSize": {
         "allowedValues": [
@@ -50,39 +71,19 @@
           "PT24H"
         ],
         "defaultValue": "PT15M",
-        "type": "String",
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
-        }
-      },
-      "enabled": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "type": "String",
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
-        }
-      },
-      "alertResourceGroupName": {
-        "defaultValue": "AlzMonitoring-rg",
-        "type": "String",
-        "metadata": {
-          "description": "Resource group the alert is placed in",
-          "displayName": "Resource Group Name"
-        }
+        },
+        "type": "String"
       },
       "alertResourceGroupLocation": {
         "defaultValue": "centralus",
-        "type": "String",
         "metadata": {
           "description": "Location of the Resource group the alert is placed in",
           "displayName": "Resource Group Location"
-        }
+        },
+        "type": "String"
       },
       "severity": {
         "allowedValues": [
@@ -93,41 +94,29 @@
           "4"
         ],
         "defaultValue": "2",
-        "type": "String",
         "metadata": {
           "description": "Severity of the Alert",
           "displayName": "Severity"
-        }
+        },
+        "type": "String"
       },
       "threshold": {
         "defaultValue": "10000000",
-        "type": "String",
         "metadata": {
           "description": "Threshold for the alert",
           "displayName": "Threshold"
-        }
+        },
+        "type": "String"
       },
       "alertResourceGroupTags": {
         "defaultValue": {
           "environment": "test"
         },
-        "type": "Object",
         "metadata": {
           "description": "Tags on the Resource group the alert is placed in",
           "displayName": "Resource Group Tags"
-        }
-      },
-      "effect": {
-        "allowedValues": [
-          "deployIfNotExists",
-          "disabled"
-        ],
-        "defaultValue": "deployIfNotExists",
-        "type": "String",
-        "metadata": {
-          "description": "Effect of the policy",
-          "displayName": "Effect"
-        }
+        },
+        "type": "Object"
       },
       "timeAggregation": {
         "allowedValues": [
@@ -138,18 +127,30 @@
           "Total"
         ],
         "defaultValue": "Average",
-        "type": "String",
         "metadata": {
           "displayName": "TimeAggregation"
-        }
+        },
+        "type": "String"
+      },
+      "effect": {
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "defaultValue": "deployIfNotExists",
+        "metadata": {
+          "description": "Effect of the policy",
+          "displayName": "Effect"
+        },
+        "type": "String"
       },
       "failingPeriods": {
         "defaultValue": "1",
-        "type": "String",
         "metadata": {
           "description": "Number of failing periods before alert is fired",
           "displayname": "Failing Periods"
-        }
+        },
+        "type": "String"
       },
       "operator": {
         "allowedValues": [
@@ -160,36 +161,36 @@
           "LessThanOrEqual"
         ],
         "defaultValue": "GreaterThan",
-        "type": "String",
         "metadata": {
           "displayName": "Operator"
-        }
+        },
+        "type": "String"
       },
       "evaluationPeriods": {
         "defaultValue": "1",
-        "type": "String",
         "metadata": {
           "description": "The number of aggregated lookback points.",
           "displayname": "Evaluation Periods"
-        }
+        },
+        "type": "String"
       },
       "autoResolveTime": {
         "defaultValue": "00:10:00",
-        "type": "String",
         "metadata": {
           "description": "Auto Resolve time for the alert in ISO 8601 format",
           "displayName": "Auto Resolve"
-        }
+        },
+        "type": "String"
       },
       "computersToInclude": {
         "defaultValue": [
           "*"
         ],
-        "type": "array",
         "metadata": {
           "description": "Array of Computer to be monitored",
           "displayname": "Disks to be included to be monitored"
-        }
+        },
+        "type": "array"
       },
       "autoResolve": {
         "allowedValues": [
@@ -197,21 +198,21 @@
           "false"
         ],
         "defaultValue": "true",
-        "type": "String",
         "metadata": {
           "description": "Auto Resolve for the alert",
           "displayName": "Auto Resolve"
-        }
+        },
+        "type": "String"
       },
       "networkInterfacesToInclude": {
         "defaultValue": [
           "*"
         ],
-        "type": "array",
         "metadata": {
           "description": "Array of Network Interface to be monitored",
           "displayname": "Network Interface to be included to be monitored"
-        }
+        },
+        "type": "array"
       }
     },
     "policyRule": {
@@ -227,6 +228,9 @@
         "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Insights/scheduledQueryRules",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "existenceCondition": {
             "allOf": [
               {
@@ -243,26 +247,23 @@
               }
             ]
           },
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "deployment": {
             "properties": {
               "parameters": {
+                "enabled": {
+                  "value": "[parameters('enabled')]"
+                },
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
                 },
                 "autoMitigate": {
                   "value": "[parameters('autoMitigate')]"
                 },
-                "windowSize": {
-                  "value": "[parameters('windowSize')]"
-                },
-                "enabled": {
-                  "value": "[parameters('enabled')]"
-                },
                 "alertResourceGroupName": {
                   "value": "[parameters('alertResourceGroupName')]"
+                },
+                "windowSize": {
+                  "value": "[parameters('windowSize')]"
                 },
                 "alertResourceGroupLocation": {
                   "value": "[parameters('alertResourceGroupLocation')]"
@@ -304,20 +305,20 @@
               "mode": "incremental",
               "template": {
                 "parameters": {
+                  "enabled": {
+                    "type": "String"
+                  },
                   "evaluationFrequency": {
                     "type": "String"
                   },
                   "autoMitigate": {
                     "type": "String"
                   },
-                  "windowSize": {
-                    "type": "String"
-                  },
-                  "enabled": {
-                    "type": "String"
-                  },
                   "alertResourceGroupName": {
                     "type": "string"
+                  },
+                  "windowSize": {
+                    "type": "String"
                   },
                   "alertResourceGroupLocation": {
                     "type": "string"
@@ -361,7 +362,6 @@
                   }
                 },
                 "contentVersion": "1.0.0.0",
-                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -399,29 +399,29 @@
                           }
                         },
                         "contentVersion": "1.0.0.0",
-                        "variables": {},
                         "resources": [
                           {
                             "type": "Microsoft.Insights/scheduledQueryRules",
                             "properties": {
                               "description": "Log Alert for Virtual Machine NetworkIn",
                               "displayName": "[concat(subscription().displayName, '-VMHighNetworkInAlert')]",
+                              "enabled": "[parameters('enabled')]",
                               "evaluationFrequency": "[parameters('evaluationFrequency')]",
                               "parameters": {
+                                "enabled": {
+                                  "value": "[parameters('enabled')]"
+                                },
                                 "evaluationFrequency": {
                                   "value": "[parameters('evaluationFrequency')]"
                                 },
                                 "autoMitigate": {
                                   "value": "[parameters('autoMitigate')]"
                                 },
-                                "windowSize": {
-                                  "value": "[parameters('windowSize')]"
-                                },
-                                "enabled": {
-                                  "value": "[parameters('enabled')]"
-                                },
                                 "alertResourceGroupName": {
                                   "value": "[parameters('alertResourceGroupName')]"
+                                },
+                                "windowSize": {
+                                  "value": "[parameters('windowSize')]"
                                 },
                                 "alertResourceGroupLocation": {
                                   "value": "[parameters('alertResourceGroupName')]"
@@ -453,7 +453,6 @@
                               },
                               "autoMitigate": "[parameters('autoMitigate')]",
                               "windowSize": "[parameters('windowSize')]",
-                              "enabled": "[parameters('enabled')]",
                               "severity": "[parameters('severity')]",
                               "criteria": {
                                 "allOf": [
@@ -499,6 +498,7 @@
                             "name": "[concat(subscription().displayName, '-VMHighNetworkInAlert')]"
                           }
                         ],
+                        "variables": {},
                         "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
                       }
                     },
@@ -509,6 +509,7 @@
                     ]
                   }
                 ],
+                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               }
             },

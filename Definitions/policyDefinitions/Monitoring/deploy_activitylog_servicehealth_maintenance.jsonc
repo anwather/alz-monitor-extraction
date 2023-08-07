@@ -5,13 +5,13 @@
     "description": "Policy to Deploy Service Health Maintenance Alert",
     "mode": "All",
     "metadata": {
+      "_deployed_by_alz_monitor": "True",
+      "version": "1.1.0",
+      "category": "Monitoring",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_alz_monitor": "True",
-      "version": "1.1.0",
-      "source": "https://github.com/Azure/Enterprise-Scale/",
-      "category": "Monitoring"
+      "source": "https://github.com/Azure/Enterprise-Scale/"
     },
     "parameters": {
       "enabled": {
@@ -20,54 +20,54 @@
           "false"
         ],
         "defaultValue": "true",
-        "type": "String",
         "metadata": {
           "description": "Alert state for the alert",
           "displayName": "Alert State"
-        }
+        },
+        "type": "String"
       },
       "alertResourceGroupName": {
         "defaultValue": "AlzMonitoring-rg",
-        "type": "String",
         "metadata": {
           "description": "Resource group the alert is placed in",
           "displayName": "Resource Group Name"
-        }
+        },
+        "type": "String"
       },
       "alertResourceGroupLocation": {
         "defaultValue": "centralus",
-        "type": "String",
         "metadata": {
           "description": "Location of the Resource group the alert is placed in",
           "displayName": "Resource Group Location"
-        }
+        },
+        "type": "String"
       },
       "alertResourceGroupTags": {
         "defaultValue": {
           "_deployed_by_alz_monitor": true,
           "environment": "test"
         },
-        "type": "Object",
         "metadata": {
           "description": "Tags on the Resource group the alert is placed in",
           "displayName": "Resource Group Tags"
-        }
+        },
+        "type": "Object"
       },
       "monitorDisable": {
         "defaultValue": "MonitorDisable",
-        "type": "String",
         "metadata": {
           "description": "Tag name to disable monitoring  Subscription level alerts. Set to true if monitoring should be disabled",
           "displayName": "Effect"
-        }
+        },
+        "type": "String"
       },
       "alzMonitorActionGroupEmail": {
         "defaultValue": "action@mail.com",
-        "type": "String",
         "metadata": {
           "description": "Email address to send alerts to",
           "displayName": "Action Group Email"
-        }
+        },
+        "type": "String"
       }
     },
     "policyRule": {
@@ -87,6 +87,9 @@
         "effect": "deployIfNotExists",
         "details": {
           "type": "Microsoft.Insights/activityLogAlerts",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "existenceCondition": {
             "allOf": [
               {
@@ -129,9 +132,6 @@
               }
             ]
           },
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "deployment": {
             "properties": {
               "parameters": {
@@ -175,7 +175,6 @@
                   }
                 },
                 "contentVersion": "1.0.0.0",
-                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -213,18 +212,17 @@
                           }
                         },
                         "contentVersion": "1.0.0.0",
-                        "variables": {},
                         "resources": [
                           {
                             "type": "microsoft.insights/activityLogAlerts",
                             "properties": {
                               "description": "ServiceHealthPlannedMaintenance Alert",
+                              "enabled": "[parameters('enabled')]",
                               "parameters": {
                                 "enabled": {
                                   "value": "[parameters('enabled')]"
                                 }
                               },
-                              "enabled": "[parameters('enabled')]",
                               "scopes": [
                                 "[subscription().id]"
                               ],
@@ -279,6 +277,7 @@
                             }
                           }
                         ],
+                        "variables": {},
                         "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
                       }
                     },
@@ -289,6 +288,7 @@
                     ]
                   }
                 ],
+                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               }
             },
