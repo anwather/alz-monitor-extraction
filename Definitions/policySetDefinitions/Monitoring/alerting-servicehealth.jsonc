@@ -4,13 +4,13 @@
     "displayName": "Deploy Service Health alerts",
     "description": "This policy set deploys Service Health alerts for Azure services. Aslo a basic action and alert processing rule is deployed",
     "metadata": {
-      "alzCloudEnvironments": [
-        "AzureCloud"
-      ],
       "_deployed_by_alz_monitor": true,
       "version": "1.1.0",
+      "category": "Monitoring",
       "source": "https://github.com/Azure/Enterprise-Scale/",
-      "category": "Monitoring"
+      "alzCloudEnvironments": [
+        "AzureCloud"
+      ]
     },
     "parameters": {
       "alzMonitorActionGroupEmail": {
@@ -21,18 +21,30 @@
         "defaultValue": "centralus",
         "type": "String"
       },
+      "alzMonitorResourceGroupName": {
+        "defaultValue": "ALZ-Monitoring-RG",
+        "type": "String"
+      },
       "alzMonitorResourceGroupTags": {
         "defaultValue": {
           "_deployed_by_alz_monitor": true
         },
         "type": "Object"
       },
-      "alzMonitorResourceGroupName": {
-        "defaultValue": "ALZ-Monitoring-RG",
-        "type": "String"
-      },
       "monitorDisable": {
         "defaultValue": "MonitorDisable",
+        "type": "string"
+      },
+      "svcHlthIncidentAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "svcHlthMaintenanceAlertState": {
+        "defaultValue": "true",
+        "type": "string"
+      },
+      "svcHlthSecAdvisoryAlertState": {
+        "defaultValue": "true",
         "type": "string"
       },
       "resHlthUnhealthyAlertState": {
@@ -42,18 +54,6 @@
       "svcHlthAdvisoryAlertState": {
         "defaultValue": "true",
         "type": "string"
-      },
-      "svcHlthIncidentAlertState": {
-        "defaultValue": "true",
-        "type": "string"
-      },
-      "svcHlthSecAdvisoryAlertState": {
-        "defaultValue": "true",
-        "type": "string"
-      },
-      "svcHlthMaintenanceAlertState": {
-        "defaultValue": "true",
-        "type": "string"
       }
     },
     "policyDefinitions": [
@@ -61,8 +61,8 @@
         "policyDefinitionReferenceId": "ALZ_ResHlthUnhealthy",
         "policyDefinitionName": "Deploy_activitylog_ResourceHealth_Unhealthy_Alert",
         "parameters": {
-          "alertResourceGroupTags": {
-            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "alertResourceGroupName": {
             "value": "[parameters('ALZMonitorResourceGroupName')]"
@@ -70,8 +70,8 @@
           "enabled": {
             "value": "[parameters('ResHlthUnhealthyAlertState')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
           }
         }
       },
@@ -79,20 +79,20 @@
         "policyDefinitionReferenceId": "ALZ_SvcHlthAdvisory",
         "policyDefinitionName": "Deploy_activitylog_ServiceHealth_HealthAdvisory",
         "parameters": {
-          "enabled": {
-            "value": "[parameters('SvcHlthAdvisoryAlertState')]"
-          },
-          "alertResourceGroupTags": {
-            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          "alzMonitorActionGroupEmail": {
+            "value": "[parameters('ALZMonitorActionGroupEmail')]"
           },
           "alertResourceGroupName": {
             "value": "[parameters('ALZMonitorResourceGroupName')]"
           },
-          "alzMonitorActionGroupEmail": {
-            "value": "[parameters('ALZMonitorActionGroupEmail')]"
+          "enabled": {
+            "value": "[parameters('SvcHlthAdvisoryAlertState')]"
           },
           "alertResourceGroupLocation": {
             "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
           }
         }
       },
@@ -100,20 +100,20 @@
         "policyDefinitionReferenceId": "ALZ_SvcHlthIncident",
         "policyDefinitionName": "Deploy_activitylog_ServiceHealth_Incident",
         "parameters": {
-          "enabled": {
-            "value": "[parameters('SvcHlthIncidentAlertState')]"
-          },
-          "alertResourceGroupTags": {
-            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          "alzMonitorActionGroupEmail": {
+            "value": "[parameters('ALZMonitorActionGroupEmail')]"
           },
           "alertResourceGroupName": {
             "value": "[parameters('ALZMonitorResourceGroupName')]"
           },
-          "alzMonitorActionGroupEmail": {
-            "value": "[parameters('ALZMonitorActionGroupEmail')]"
+          "enabled": {
+            "value": "[parameters('SvcHlthIncidentAlertState')]"
           },
           "alertResourceGroupLocation": {
             "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
           }
         }
       },
@@ -121,20 +121,20 @@
         "policyDefinitionReferenceId": "ALZ_SvcHlthMaintenance",
         "policyDefinitionName": "Deploy_activitylog_ServiceHealth_Maintenance",
         "parameters": {
-          "enabled": {
-            "value": "[parameters('SvcHlthMaintenanceAlertState')]"
-          },
-          "alertResourceGroupTags": {
-            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          "alzMonitorActionGroupEmail": {
+            "value": "[parameters('ALZMonitorActionGroupEmail')]"
           },
           "alertResourceGroupName": {
             "value": "[parameters('ALZMonitorResourceGroupName')]"
           },
-          "alzMonitorActionGroupEmail": {
-            "value": "[parameters('ALZMonitorActionGroupEmail')]"
+          "enabled": {
+            "value": "[parameters('SvcHlthMaintenanceAlertState')]"
           },
           "alertResourceGroupLocation": {
             "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
           }
         }
       },
@@ -142,20 +142,20 @@
         "policyDefinitionReferenceId": "ALZ_svcHlthSecAdvisory",
         "policyDefinitionName": "Deploy_activitylog_ServiceHealth_SecurityAdvisory",
         "parameters": {
-          "enabled": {
-            "value": "[parameters('svcHlthSecAdvisoryAlertState')]"
-          },
-          "alertResourceGroupTags": {
-            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          "alzMonitorActionGroupEmail": {
+            "value": "[parameters('ALZMonitorActionGroupEmail')]"
           },
           "alertResourceGroupName": {
             "value": "[parameters('ALZMonitorResourceGroupName')]"
           },
-          "alzMonitorActionGroupEmail": {
-            "value": "[parameters('ALZMonitorActionGroupEmail')]"
+          "enabled": {
+            "value": "[parameters('svcHlthSecAdvisoryAlertState')]"
           },
           "alertResourceGroupLocation": {
             "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
           }
         }
       },
@@ -163,20 +163,20 @@
         "policyDefinitionReferenceId": "ALZ_AlertProcessing_Rule",
         "policyDefinitionName": "Deploy_AlertProcessing_Rule",
         "parameters": {
-          "alzMonitorResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
-          },
-          "monitorDisable": {
-            "value": "[parameters('MonitorDisable')]"
+          "alzMonitorResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "alzMonitorActionGroupEmail": {
             "value": "[parameters('ALZMonitorActionGroupEmail')]"
           },
-          "alzMonitorResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
           "alzMonitorResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          },
+          "monitorDisable": {
+            "value": "[parameters('MonitorDisable')]"
+          },
+          "alzMonitorResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
           }
         }
       }

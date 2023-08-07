@@ -5,15 +5,27 @@
     "description": "Policy to audit/deploy VM Available Memory Alert",
     "mode": "All",
     "metadata": {
+      "_deployed_by_alz_monitor": "True",
+      "version": "1.0.1",
+      "category": "Compute",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_alz_monitor": "True",
-      "version": "1.0.1",
-      "source": "https://github.com/Azure/Enterprise-Scale/",
-      "category": "Compute"
+      "source": "https://github.com/Azure/Enterprise-Scale/"
     },
     "parameters": {
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
+        },
+        "type": "String"
+      },
       "evaluationFrequency": {
         "allowedValues": [
           "PT1M",
@@ -23,11 +35,11 @@
           "PT1H"
         ],
         "defaultValue": "PT5M",
-        "type": "String",
         "metadata": {
           "description": "Evaluation frequency for the alert",
           "displayName": "Evaluation Frequency"
-        }
+        },
+        "type": "String"
       },
       "autoMitigate": {
         "allowedValues": [
@@ -35,11 +47,11 @@
           "false"
         ],
         "defaultValue": "true",
-        "type": "String",
         "metadata": {
           "description": "Auto Mitigate for the alert",
           "displayName": "Auto Mitigate"
-        }
+        },
+        "type": "String"
       },
       "windowSize": {
         "allowedValues": [
@@ -53,23 +65,11 @@
           "P1D"
         ],
         "defaultValue": "PT5M",
-        "type": "String",
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
-        }
-      },
-      "enabled": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "type": "String",
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
-        }
+        },
+        "type": "String"
       },
       "severity": {
         "allowedValues": [
@@ -80,19 +80,19 @@
           "4"
         ],
         "defaultValue": "2",
-        "type": "String",
         "metadata": {
           "description": "Severity of the Alert",
           "displayName": "Severity"
-        }
+        },
+        "type": "String"
       },
       "threshold": {
         "defaultValue": "1000",
-        "type": "String",
         "metadata": {
           "description": "Threshold for the alert",
           "displayName": "Threshold"
-        }
+        },
+        "type": "String"
       },
       "effect": {
         "allowedValues": [
@@ -100,19 +100,19 @@
           "disabled"
         ],
         "defaultValue": "disabled",
-        "type": "String",
         "metadata": {
           "description": "Effect of the policy",
           "displayName": "Effect"
-        }
+        },
+        "type": "String"
       },
       "monitorDisable": {
         "defaultValue": "MonitorDisable",
-        "type": "String",
         "metadata": {
           "description": "Tag name to disable monitoring resource. Set to true if monitoring should be disabled",
           "displayName": "Effect"
-        }
+        },
+        "type": "String"
       }
     },
     "policyRule": {
@@ -132,6 +132,9 @@
         "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Insights/metricAlerts",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "existenceCondition": {
             "allOf": [
               {
@@ -152,14 +155,14 @@
               }
             ]
           },
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "deployment": {
             "properties": {
               "parameters": {
                 "resourceId": {
                   "value": "[field('id')]"
+                },
+                "enabled": {
+                  "value": "[parameters('enabled')]"
                 },
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
@@ -169,9 +172,6 @@
                 },
                 "windowSize": {
                   "value": "[parameters('windowSize')]"
-                },
-                "enabled": {
-                  "value": "[parameters('enabled')]"
                 },
                 "severity": {
                   "value": "[parameters('severity')]"
@@ -187,11 +187,14 @@
               "template": {
                 "parameters": {
                   "resourceId": {
-                    "type": "String",
                     "metadata": {
                       "description": "Resource ID of the resource emitting the metric that will be used for the comparison",
                       "displayName": "resourceId"
-                    }
+                    },
+                    "type": "String"
+                  },
+                  "enabled": {
+                    "type": "String"
                   },
                   "evaluationFrequency": {
                     "type": "String"
@@ -202,9 +205,6 @@
                   "windowSize": {
                     "type": "String"
                   },
-                  "enabled": {
-                    "type": "String"
-                  },
                   "severity": {
                     "type": "String"
                   },
@@ -212,22 +212,25 @@
                     "type": "String"
                   },
                   "resourceName": {
-                    "type": "String",
                     "metadata": {
                       "description": "Name of the resource",
                       "displayName": "resourceName"
-                    }
+                    },
+                    "type": "String"
                   }
                 },
                 "contentVersion": "1.0.0.0",
-                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
                       "description": "Metric Alert for Virtual Machine Available Memory (MBytes)",
+                      "enabled": "[parameters('enabled')]",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "parameters": {
+                        "enabled": {
+                          "value": "[parameters('enabled')]"
+                        },
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
                         },
@@ -236,9 +239,6 @@
                         },
                         "windowSize": {
                           "value": "[parameters('windowSize')]"
-                        },
-                        "enabled": {
-                          "value": "[parameters('enabled')]"
                         },
                         "severity": {
                           "value": "[parameters('severity')]"
@@ -249,7 +249,6 @@
                       },
                       "autoMitigate": "[parameters('autoMitigate')]",
                       "windowSize": "[parameters('windowSize')]",
-                      "enabled": "[parameters('enabled')]",
                       "severity": "[parameters('severity')]",
                       "criteria": {
                         "allOf": [
@@ -277,6 +276,7 @@
                     }
                   }
                 ],
+                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               }
             }

@@ -5,56 +5,56 @@
     "description": "Policy to Deploy Deploy Alert Processing Rule with Action Group",
     "mode": "All",
     "metadata": {
+      "_deployed_by_alz_monitor": "True",
+      "version": "1.0.1",
+      "category": "Monitoring",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "_deployed_by_alz_monitor": "True",
-      "version": "1.0.1",
-      "source": "https://github.com/Azure/Enterprise-Scale/",
-      "category": "Monitoring"
+      "source": "https://github.com/Azure/Enterprise-Scale/"
     },
     "parameters": {
       "monitorDisable": {
         "defaultValue": "MonitorDisable",
-        "type": "String",
         "metadata": {
           "description": "Tag name to disable monitoring at subscription. Set to true if monitoring process rule should be disabled",
           "displayName": "Effect"
-        }
+        },
+        "type": "String"
       },
       "alzMonitorActionGroupEmail": {
         "defaultValue": "action@mail.com",
-        "type": "String",
         "metadata": {
           "description": "Email address to send alerts to",
           "displayName": "Action Group Email"
-        }
+        },
+        "type": "String"
       },
       "alzMonitorResourceGroupLocation": {
         "defaultValue": "centralus",
-        "type": "String",
         "metadata": {
           "description": "Location of the Resource group the alert is placed in",
           "displayName": "Resource Group Location"
-        }
+        },
+        "type": "String"
+      },
+      "alzMonitorResourceGroupName": {
+        "defaultValue": "AlzMonitoring-rg",
+        "metadata": {
+          "description": "Resource group the alert is placed in",
+          "displayName": "Resource Group Name"
+        },
+        "type": "String"
       },
       "alzMonitorResourceGroupTags": {
         "defaultValue": {
           "environment": "test"
         },
-        "type": "Object",
         "metadata": {
           "description": "Tags on the Resource group the alert is placed in",
           "displayName": "Resource Group Tags"
-        }
-      },
-      "alzMonitorResourceGroupName": {
-        "defaultValue": "AlzMonitoring-rg",
-        "type": "String",
-        "metadata": {
-          "description": "Resource group the alert is placed in",
-          "displayName": "Resource Group Name"
-        }
+        },
+        "type": "Object"
       }
     },
     "policyRule": {
@@ -74,6 +74,9 @@
         "effect": "deployIfNotExists",
         "details": {
           "type": "Microsoft.AlertsManagement/actionRules",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "existenceCondition": {
             "allOf": [
               {
@@ -82,9 +85,6 @@
               }
             ]
           },
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "deployment": {
             "properties": {
               "parameters": {
@@ -122,7 +122,6 @@
                   }
                 },
                 "contentVersion": "1.0.0.0",
-                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -154,7 +153,6 @@
                           }
                         },
                         "contentVersion": "1.0.0.0",
-                        "variables": {},
                         "resources": [
                           {
                             "type": "Microsoft.Insights/actionGroups",
@@ -204,6 +202,7 @@
                             ]
                           }
                         ],
+                        "variables": {},
                         "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
                       }
                     },
@@ -214,6 +213,7 @@
                     ]
                   }
                 ],
+                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               }
             },
