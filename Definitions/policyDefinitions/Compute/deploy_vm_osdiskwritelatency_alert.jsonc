@@ -5,27 +5,15 @@
     "description": "Policy to audit/deploy VM OSDiskwriteLatency Alert",
     "mode": "All",
     "metadata": {
-      "_deployed_by_alz_monitor": "True",
-      "version": "1.0.1",
-      "category": "Compute",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
+      "category": "Compute",
+      "version": "1.0.1",
+      "_deployed_by_alz_monitor": "True",
       "source": "https://github.com/Azure/Enterprise-Scale/"
     },
     "parameters": {
-      "enabled": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
-        },
-        "type": "String"
-      },
       "evaluationFrequency": {
         "allowedValues": [
           "PT5M",
@@ -60,6 +48,14 @@
         },
         "type": "String"
       },
+      "alertResourceGroupLocation": {
+        "defaultValue": "centralus",
+        "metadata": {
+          "description": "Location of the Resource group the alert is placed in",
+          "displayName": "Resource Group Location"
+        },
+        "type": "String"
+      },
       "windowSize": {
         "allowedValues": [
           "PT5M",
@@ -77,11 +73,15 @@
         },
         "type": "String"
       },
-      "alertResourceGroupLocation": {
-        "defaultValue": "centralus",
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
         "metadata": {
-          "description": "Location of the Resource group the alert is placed in",
-          "displayName": "Resource Group Location"
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
         },
         "type": "String"
       },
@@ -166,19 +166,19 @@
         },
         "type": "String"
       },
-      "evaluationPeriods": {
-        "defaultValue": "1",
-        "metadata": {
-          "description": "The number of aggregated lookback points.",
-          "displayname": "Evaluation Periods"
-        },
-        "type": "String"
-      },
       "autoResolveTime": {
         "defaultValue": "00:10:00",
         "metadata": {
           "description": "Auto Resolve time for the alert in ISO 8601 format",
           "displayName": "Auto Resolve"
+        },
+        "type": "String"
+      },
+      "evaluationPeriods": {
+        "defaultValue": "1",
+        "metadata": {
+          "description": "The number of aggregated lookback points.",
+          "displayname": "Evaluation Periods"
         },
         "type": "String"
       },
@@ -220,8 +220,8 @@
       "if": {
         "allOf": [
           {
-            "field": "type",
-            "equals": "Microsoft.Compute/virtualMachines"
+            "equals": "Microsoft.Compute/virtualMachines",
+            "field": "type"
           }
         ]
       },
@@ -229,31 +229,28 @@
         "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Insights/scheduledQueryRules",
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "existenceCondition": {
             "allOf": [
               {
-                "field": "Microsoft.Insights/scheduledQueryRules/displayName",
-                "equals": "[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]"
+                "equals": "[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]",
+                "field": "Microsoft.Insights/scheduledQueryRules/displayName"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]",
-                "equals": "[subscription().id]"
+                "equals": "[subscription().id]",
+                "field": "Microsoft.Insights/scheduledqueryrules/scopes[*]"
               },
               {
-                "field": "Microsoft.Insights/scheduledqueryrules/enabled",
-                "equals": "[parameters('enabled')]"
+                "equals": "[parameters('enabled')]",
+                "field": "Microsoft.Insights/scheduledqueryrules/enabled"
               }
             ]
           },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "deployment": {
             "properties": {
               "parameters": {
-                "enabled": {
-                  "value": "[parameters('enabled')]"
-                },
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
                 },
@@ -263,11 +260,14 @@
                 "alertResourceGroupName": {
                   "value": "[parameters('alertResourceGroupName')]"
                 },
+                "alertResourceGroupLocation": {
+                  "value": "[parameters('alertResourceGroupLocation')]"
+                },
                 "windowSize": {
                   "value": "[parameters('windowSize')]"
                 },
-                "alertResourceGroupLocation": {
-                  "value": "[parameters('alertResourceGroupLocation')]"
+                "enabled": {
+                  "value": "[parameters('enabled')]"
                 },
                 "severity": {
                   "value": "[parameters('severity')]"
@@ -287,11 +287,11 @@
                 "operator": {
                   "value": "[parameters('operator')]"
                 },
-                "evaluationPeriods": {
-                  "value": "[parameters('evaluationPeriods')]"
-                },
                 "autoResolveTime": {
                   "value": "[parameters('autoResolveTime')]"
+                },
+                "evaluationPeriods": {
+                  "value": "[parameters('evaluationPeriods')]"
                 },
                 "computersToInclude": {
                   "value": "[parameters('computersToInclude')]"
@@ -306,9 +306,6 @@
               "mode": "incremental",
               "template": {
                 "parameters": {
-                  "enabled": {
-                    "type": "String"
-                  },
                   "evaluationFrequency": {
                     "type": "String"
                   },
@@ -318,11 +315,14 @@
                   "alertResourceGroupName": {
                     "type": "string"
                   },
+                  "alertResourceGroupLocation": {
+                    "type": "string"
+                  },
                   "windowSize": {
                     "type": "String"
                   },
-                  "alertResourceGroupLocation": {
-                    "type": "string"
+                  "enabled": {
+                    "type": "String"
                   },
                   "severity": {
                     "type": "String"
@@ -342,10 +342,10 @@
                   "operator": {
                     "type": "String"
                   },
-                  "evaluationPeriods": {
+                  "autoResolveTime": {
                     "type": "String"
                   },
-                  "autoResolveTime": {
+                  "evaluationPeriods": {
                     "type": "String"
                   },
                   "computersToInclude": {
@@ -376,26 +376,26 @@
                     "type": "Microsoft.Resources/deployments",
                     "properties": {
                       "parameters": {
-                        "enabled": {
-                          "value": "[parameters('enabled')]"
-                        },
                         "alertResourceGroupName": {
                           "value": "[parameters('alertResourceGroupName')]"
                         },
                         "alertResourceGroupLocation": {
                           "value": "[parameters('alertResourceGroupLocation')]"
+                        },
+                        "enabled": {
+                          "value": "[parameters('enabled')]"
                         }
                       },
                       "mode": "Incremental",
                       "template": {
                         "parameters": {
-                          "enabled": {
-                            "type": "string"
-                          },
                           "alertResourceGroupName": {
                             "type": "string"
                           },
                           "alertResourceGroupLocation": {
+                            "type": "string"
+                          },
+                          "enabled": {
                             "type": "string"
                           }
                         },
@@ -406,12 +406,8 @@
                             "properties": {
                               "description": "Log Alert for Virtual Machine OSDiskwriteLatency",
                               "displayName": "[concat(subscription().displayName, '-VMLowOSDiskwriteLatencyAlert')]",
-                              "enabled": "[parameters('enabled')]",
                               "evaluationFrequency": "[parameters('evaluationFrequency')]",
                               "parameters": {
-                                "enabled": {
-                                  "value": "[parameters('enabled')]"
-                                },
                                 "evaluationFrequency": {
                                   "value": "[parameters('evaluationFrequency')]"
                                 },
@@ -421,11 +417,14 @@
                                 "alertResourceGroupName": {
                                   "value": "[parameters('alertResourceGroupName')]"
                                 },
+                                "alertResourceGroupLocation": {
+                                  "value": "[parameters('alertResourceGroupName')]"
+                                },
                                 "windowSize": {
                                   "value": "[parameters('windowSize')]"
                                 },
-                                "alertResourceGroupLocation": {
-                                  "value": "[parameters('alertResourceGroupName')]"
+                                "enabled": {
+                                  "value": "[parameters('enabled')]"
                                 },
                                 "severity": {
                                   "value": "[parameters('severity')]"
@@ -436,11 +435,11 @@
                                 "failingPeriods": {
                                   "value": "[parameters('failingPeriods')]"
                                 },
-                                "evaluationPeriods": {
-                                  "value": "[parameters('evaluationPeriods')]"
-                                },
                                 "autoResolveTime": {
                                   "value": "[parameters('autoResolveTime')]"
+                                },
+                                "evaluationPeriods": {
+                                  "value": "[parameters('evaluationPeriods')]"
                                 },
                                 "computersToInclude": {
                                   "value": "[parameters('computersToInclude')]"
@@ -454,6 +453,7 @@
                               },
                               "autoMitigate": "[parameters('autoMitigate')]",
                               "windowSize": "[parameters('windowSize')]",
+                              "enabled": "[parameters('enabled')]",
                               "severity": "[parameters('severity')]",
                               "criteria": {
                                 "allOf": [

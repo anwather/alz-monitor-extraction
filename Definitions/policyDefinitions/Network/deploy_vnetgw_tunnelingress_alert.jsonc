@@ -5,27 +5,15 @@
     "description": "Policy to audit/deploy Virtual Network Gateway Tunnel Ingress Alert",
     "mode": "All",
     "metadata": {
-      "_deployed_by_alz_monitor": "True",
-      "version": "1.0.1",
-      "category": "Network",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
+      "category": "Network",
+      "version": "1.0.1",
+      "_deployed_by_alz_monitor": "True",
       "source": "https://github.com/Azure/Enterprise-Scale/"
     },
     "parameters": {
-      "enabled": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
-        },
-        "type": "String"
-      },
       "evaluationFrequency": {
         "allowedValues": [
           "PT1M",
@@ -68,6 +56,18 @@
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
+        },
+        "type": "String"
+      },
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
         },
         "type": "String"
       },
@@ -119,12 +119,12 @@
       "if": {
         "allOf": [
           {
-            "field": "type",
-            "equals": "Microsoft.Network/virtualNetworkGateways"
+            "equals": "Microsoft.Network/virtualNetworkGateways",
+            "field": "type"
           },
           {
-            "field": "Microsoft.Network/virtualNetworkGateways/gatewayType",
-            "equals": "VPN"
+            "equals": "VPN",
+            "field": "Microsoft.Network/virtualNetworkGateways/gatewayType"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -136,37 +136,34 @@
         "effect": "[parameters('effect')]",
         "details": {
           "type": "Microsoft.Insights/metricAlerts",
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "existenceCondition": {
             "allOf": [
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
-                "equals": "Microsoft.Network/virtualNetworkGateways"
+                "equals": "Microsoft.Network/virtualNetworkGateways",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricName",
-                "equals": "TunnelIngressBytes"
+                "equals": "TunnelIngressBytes",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].metricName"
               },
               {
-                "field": "Microsoft.Insights/metricalerts/scopes[*]",
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworkGateways/', field('fullName'))]"
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworkGateways/', field('fullName'))]",
+                "field": "Microsoft.Insights/metricalerts/scopes[*]"
               },
               {
-                "field": "Microsoft.Insights/metricAlerts/enabled",
-                "equals": "[parameters('enabled')]"
+                "equals": "[parameters('enabled')]",
+                "field": "Microsoft.Insights/metricAlerts/enabled"
               }
             ]
           },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "deployment": {
             "properties": {
               "parameters": {
                 "resourceId": {
                   "value": "[field('id')]"
-                },
-                "enabled": {
-                  "value": "[parameters('enabled')]"
                 },
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
@@ -176,6 +173,9 @@
                 },
                 "windowSize": {
                   "value": "[parameters('windowSize')]"
+                },
+                "enabled": {
+                  "value": "[parameters('enabled')]"
                 },
                 "severity": {
                   "value": "[parameters('severity')]"
@@ -197,9 +197,6 @@
                     },
                     "type": "String"
                   },
-                  "enabled": {
-                    "type": "String"
-                  },
                   "evaluationFrequency": {
                     "type": "String"
                   },
@@ -207,6 +204,9 @@
                     "type": "String"
                   },
                   "windowSize": {
+                    "type": "String"
+                  },
+                  "enabled": {
                     "type": "String"
                   },
                   "severity": {
@@ -229,12 +229,8 @@
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
                       "description": "Metric Alert for VNet Gateway Tunnel ingress Bytes",
-                      "enabled": "[parameters('enabled')]",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "parameters": {
-                        "enabled": {
-                          "value": "[parameters('enabled')]"
-                        },
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
                         },
@@ -243,6 +239,9 @@
                         },
                         "windowSize": {
                           "value": "[parameters('windowSize')]"
+                        },
+                        "enabled": {
+                          "value": "[parameters('enabled')]"
                         },
                         "severity": {
                           "value": "[parameters('severity')]"
@@ -253,6 +252,7 @@
                       },
                       "autoMitigate": "[parameters('autoMitigate')]",
                       "windowSize": "[parameters('windowSize')]",
+                      "enabled": "[parameters('enabled')]",
                       "severity": "[parameters('severity')]",
                       "criteria": {
                         "allOf": [
