@@ -5,12 +5,12 @@
     "description": "Policy to Deploy Deploy Alert Processing Rule with Action Group",
     "mode": "All",
     "metadata": {
-      "_deployed_by_alz_monitor": "True",
-      "version": "1.0.1",
-      "category": "Monitoring",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
+      "category": "Monitoring",
+      "version": "1.0.1",
+      "_deployed_by_alz_monitor": "True",
       "source": "https://github.com/Azure/Enterprise-Scale/"
     },
     "parameters": {
@@ -38,14 +38,6 @@
         },
         "type": "String"
       },
-      "alzMonitorResourceGroupName": {
-        "defaultValue": "AlzMonitoring-rg",
-        "metadata": {
-          "description": "Resource group the alert is placed in",
-          "displayName": "Resource Group Name"
-        },
-        "type": "String"
-      },
       "alzMonitorResourceGroupTags": {
         "defaultValue": {
           "environment": "test"
@@ -55,14 +47,22 @@
           "displayName": "Resource Group Tags"
         },
         "type": "Object"
+      },
+      "alzMonitorResourceGroupName": {
+        "defaultValue": "AlzMonitoring-rg",
+        "metadata": {
+          "description": "Resource group the alert is placed in",
+          "displayName": "Resource Group Name"
+        },
+        "type": "String"
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "field": "type",
-            "equals": "Microsoft.Resources/subscriptions"
+            "equals": "Microsoft.Resources/subscriptions",
+            "field": "type"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -74,17 +74,17 @@
         "effect": "deployIfNotExists",
         "details": {
           "type": "Microsoft.AlertsManagement/actionRules",
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
-          ],
           "existenceCondition": {
             "allOf": [
               {
-                "field": "Microsoft.AlertsManagement/actionRules/description",
-                "equals": "Alz Alert Processing Rule for Subscription"
+                "equals": "Alz Alert Processing Rule for Subscription",
+                "field": "Microsoft.AlertsManagement/actionRules/description"
               }
             ]
           },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          ],
           "deployment": {
             "properties": {
               "parameters": {
@@ -158,14 +158,14 @@
                             "type": "Microsoft.Insights/actionGroups",
                             "properties": {
                               "enabled": true,
-                              "groupShortName": "AlzActionGrp",
                               "emailReceivers": [
                                 {
                                   "name": "AlzMail",
                                   "useCommonAlertSchema": true,
                                   "emailAddress": "[parameters('ALZMonitorActionGroupEmail')]"
                                 }
-                              ]
+                              ],
+                              "groupShortName": "AlzActionGrp"
                             },
                             "apiVersion": "2022-04-01",
                             "location": "global",
