@@ -5,11 +5,11 @@
     "description": "Policy to audit/deploy PIP DDoS Attack Alert",
     "mode": "All",
     "metadata": {
+      "category": "Network",
+      "version": "1.0.1",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "category": "Network",
-      "version": "1.0.1",
       "_deployed_by_alz_monitor": "True",
       "source": "https://github.com/Azure/Enterprise-Scale/"
     },
@@ -41,6 +41,18 @@
         },
         "type": "String"
       },
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
+        },
+        "type": "String"
+      },
       "windowSize": {
         "allowedValues": [
           "PT1M",
@@ -56,18 +68,6 @@
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
-        },
-        "type": "String"
-      },
-      "enabled": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
         },
         "type": "String"
       },
@@ -119,8 +119,8 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Network/publicIPAddresses",
-            "field": "type"
+            "field": "type",
+            "equals": "Microsoft.Network/publicIPAddresses"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -135,20 +135,20 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Microsoft.Network/publicIPAddresses",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace",
+                "equals": "Microsoft.Network/publicIPAddresses"
               },
               {
-                "equals": "ifunderddosattack",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName",
+                "equals": "ifunderddosattack"
               },
               {
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', field('fullName'))]",
-                "field": "Microsoft.Insights/metricalerts/scopes[*]"
+                "field": "Microsoft.Insights/metricalerts/scopes[*]",
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/publicIPAddresses/', field('fullName'))]"
               },
               {
-                "equals": "[parameters('enabled')]",
-                "field": "Microsoft.Insights/metricAlerts/enabled"
+                "field": "Microsoft.Insights/metricAlerts/enabled",
+                "equals": "[parameters('enabled')]"
               }
             ]
           },
@@ -167,11 +167,11 @@
                 "autoMitigate": {
                   "value": "[parameters('autoMitigate')]"
                 },
-                "windowSize": {
-                  "value": "[parameters('windowSize')]"
-                },
                 "enabled": {
                   "value": "[parameters('enabled')]"
+                },
+                "windowSize": {
+                  "value": "[parameters('windowSize')]"
                 },
                 "severity": {
                   "value": "[parameters('severity')]"
@@ -199,10 +199,10 @@
                   "autoMitigate": {
                     "type": "String"
                   },
-                  "windowSize": {
+                  "enabled": {
                     "type": "String"
                   },
-                  "enabled": {
+                  "windowSize": {
                     "type": "String"
                   },
                   "severity": {
@@ -233,11 +233,11 @@
                         "autoMitigate": {
                           "value": "[parameters('autoMitigate')]"
                         },
-                        "windowSize": {
-                          "value": "[parameters('windowSize')]"
-                        },
                         "enabled": {
                           "value": "[parameters('enabled')]"
+                        },
+                        "windowSize": {
+                          "value": "[parameters('windowSize')]"
                         },
                         "severity": {
                           "value": "[parameters('severity')]"
@@ -247,16 +247,16 @@
                         }
                       },
                       "autoMitigate": "[parameters('autoMitigate')]",
-                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "severity": "[parameters('severity')]",
                       "criteria": {
                         "allOf": [
                           {
                             "threshold": "[parameters('threshold')]",
                             "timeAggregation": "Maximum",
-                            "operator": "GreaterThan",
                             "name": "ifunderddosattack",
+                            "operator": "GreaterThan",
                             "metricNamespace": "Microsoft.Network/publicIPAddresses",
                             "criterionType": "StaticThresholdCriterion",
                             "metricName": "ifunderddosattack"

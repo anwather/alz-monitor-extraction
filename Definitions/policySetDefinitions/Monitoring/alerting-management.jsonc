@@ -4,11 +4,11 @@
     "displayName": "Deploy ALZ Management alerts",
     "description": "This policy set deploys select alert rules for ALZ management resources. Aslo a basic action and alert processing rule is deployed",
     "metadata": {
+      "category": "Monitoring",
+      "version": "1.0.2",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "category": "Monitoring",
-      "version": "1.0.2",
       "_deployed_by_alz_monitor": true,
       "source": "https://github.com/Azure/Enterprise-Scale/"
     },
@@ -16,8 +16,8 @@
       "alzMonitorResourceGroupLocation": {
         "defaultValue": "centralus",
         "metadata": {
-          "description": "Location of the resource group",
-          "displayName": "ALZ Monitoring Resource Group Location"
+          "displayName": "ALZ Monitoring Resource Group Location",
+          "description": "Location of the resource group"
         },
         "type": "String"
       },
@@ -26,16 +26,16 @@
           "_deployed_by_alz_monitor": true
         },
         "metadata": {
-          "description": "Tags to apply to the resource group",
-          "displayName": "ALZ Monitoring Resource Group Tags"
+          "displayName": "ALZ Monitoring Resource Group Tags",
+          "description": "Tags to apply to the resource group"
         },
         "type": "Object"
       },
       "alzMonitorResourceGroupName": {
         "defaultValue": "ALZ-Monitoring-RG",
         "metadata": {
-          "description": "Name of the resource group to deploy the ALZ monitoring resources to",
-          "displayName": "ALZ Monitoring Resource Group Name"
+          "displayName": "ALZ Monitoring Resource Group Name",
+          "description": "Name of the resource group to deploy the ALZ monitoring resources to"
         },
         "type": "String"
       },
@@ -49,8 +49,8 @@
         ],
         "defaultValue": "1",
         "metadata": {
-          "description": "Severity of the alert",
-          "displayName": "Storage Account Availability Alert Severity"
+          "displayName": "Storage Account Availability Alert Severity",
+          "description": "Severity of the alert"
         },
         "type": "String"
       },
@@ -61,16 +61,8 @@
         ],
         "defaultValue": "deployIfNotExists",
         "metadata": {
-          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert",
-          "displayName": "Storage Account Availability Alert Policy Effect"
-        },
-        "type": "string"
-      },
-      "storageAccountAvailabilityAlertState": {
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Storage Account Availability Alert State"
+          "displayName": "Storage Account Availability Alert Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will create the alert if it does not exist, disabled will not create the alert"
         },
         "type": "string"
       },
@@ -87,16 +79,16 @@
         ],
         "defaultValue": "PT5M",
         "metadata": {
-          "description": "Window size for the alert",
-          "displayName": "Storage Account Availability Alert Window Size"
+          "displayName": "Storage Account Availability Alert Window Size",
+          "description": "Window size for the alert"
         },
         "type": "string"
       },
-      "storageAccountAvailabilityThreshold": {
-        "defaultValue": "90",
+      "storageAccountAvailabilityAlertState": {
+        "defaultValue": "true",
         "metadata": {
-          "description": "Threshold for the alert",
-          "displayName": "Storage Account Availability Alert Threshold"
+          "displayName": "Storage Account Availability Alert State",
+          "description": "Alert state for the alert"
         },
         "type": "string"
       },
@@ -110,8 +102,16 @@
         ],
         "defaultValue": "PT5M",
         "metadata": {
-          "description": "Evaluation frequency for the alert",
-          "displayName": "Storage Account Availability Alert Evaluation Frequency"
+          "displayName": "Storage Account Availability Alert Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        },
+        "type": "string"
+      },
+      "storageAccountAvailabilityThreshold": {
+        "defaultValue": "90",
+        "metadata": {
+          "displayName": "Storage Account Availability Alert Threshold",
+          "description": "Threshold for the alert"
         },
         "type": "string"
       },
@@ -123,24 +123,24 @@
         ],
         "defaultValue": "modify",
         "metadata": {
-          "description": "Policy effect for the alert, modify will create the alert if it does not exist and enable it on your Recovery Vaults, audit will only audit if alerting is enabled on Recovery Vaults, disabled will not create the alert on Recovery Vaults",
-          "displayName": "RV Backup Health Monitor Policy Effect"
+          "displayName": "RV Backup Health Monitor Policy Effect",
+          "description": "Policy effect for the alert, modify will create the alert if it does not exist and enable it on your Recovery Vaults, audit will only audit if alerting is enabled on Recovery Vaults, disabled will not create the alert on Recovery Vaults"
         },
         "type": "string"
       },
       "activityLAWDeleteAlertState": {
         "defaultValue": "true",
         "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Activity Log Alert Delete Alert State"
+          "displayName": "Activity Log Alert Delete Alert State",
+          "description": "Alert state for the alert"
         },
         "type": "string"
       },
       "activityLAWKeyRegenAlertState": {
         "defaultValue": "true",
         "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Activity Log Alert Key Regen Alert State"
+          "displayName": "Activity Log Alert Key Regen Alert State",
+          "description": "Alert state for the alert"
         },
         "type": "string"
       },
@@ -154,8 +154,8 @@
         ],
         "defaultValue": "2",
         "metadata": {
-          "description": "Severity of the alert",
-          "displayName": "AA Total Job Alert Severity"
+          "displayName": "AA Total Job Alert Severity",
+          "description": "Severity of the alert"
         },
         "type": "String"
       },
@@ -172,8 +172,8 @@
         ],
         "defaultValue": "PT5M",
         "metadata": {
-          "description": "Window size for the alert",
-          "displayName": "AA Total Job Alert Window Size"
+          "displayName": "AA Total Job Alert Window Size",
+          "description": "Window size for the alert"
         },
         "type": "string"
       },
@@ -187,8 +187,8 @@
         ],
         "defaultValue": "PT1M",
         "metadata": {
-          "description": "Evaluation frequency for the alert",
-          "displayName": "AA Total Job Alert Evaluation Frequency"
+          "displayName": "AA Total Job Alert Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
         },
         "type": "string"
       },
@@ -199,24 +199,24 @@
         ],
         "defaultValue": "deployIfNotExists",
         "metadata": {
-          "description": "Policy effect for the alert",
-          "displayName": "AA Total Job Alert Policy Effect"
+          "displayName": "AA Total Job Alert Policy Effect",
+          "description": "Policy effect for the alert"
         },
         "type": "string"
       },
       "aaTotalJobAlertAlertState": {
         "defaultValue": "true",
         "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "AA Total Job Alert State"
+          "displayName": "AA Total Job Alert State",
+          "description": "Alert state for the alert"
         },
         "type": "string"
       },
       "aaTotalJobAlertThreshold": {
         "defaultValue": "20",
         "metadata": {
-          "description": "Threshold for the alert",
-          "displayName": "AA Total Job Alert Threshold"
+          "displayName": "AA Total Job Alert Threshold",
+          "description": "Threshold for the alert"
         },
         "type": "string"
       }
@@ -229,14 +229,14 @@
           "alertResourceGroupName": {
             "value": "[parameters('ALZMonitorResourceGroupName')]"
           },
-          "alertResourceGroupTags": {
-            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "enabled": {
             "value": "[parameters('activityLAWDeleteAlertState')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
           }
         }
       },
@@ -247,14 +247,14 @@
           "alertResourceGroupName": {
             "value": "[parameters('ALZMonitorResourceGroupName')]"
           },
-          "alertResourceGroupTags": {
-            "value": "[parameters('ALZMonitorResourceGroupTags')]"
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "enabled": {
             "value": "[parameters('activityLAWKeyRegenAlertState')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          "alertResourceGroupTags": {
+            "value": "[parameters('ALZMonitorResourceGroupTags')]"
           }
         }
       },
@@ -262,23 +262,23 @@
         "policyDefinitionReferenceId": "ALZ_AATotalJob",
         "policyDefinitionName": "Deploy_AA_TotalJob_Alert",
         "parameters": {
-          "effect": {
-            "value": "[parameters('AATotalJobAlertPolicyEffect')]"
-          },
-          "severity": {
-            "value": "[parameters('AATotalJobAlertSeverity')]"
+          "windowSize": {
+            "value": "[parameters('AATotalJobAlertWindowSize')]"
           },
           "enabled": {
             "value": "[parameters('AATotalJobAlertAlertState')]"
           },
-          "evaluationFrequency": {
-            "value": "[parameters('AATotalJobAlertEvaluationFrequency')]"
-          },
-          "windowSize": {
-            "value": "[parameters('AATotalJobAlertWindowSize')]"
+          "effect": {
+            "value": "[parameters('AATotalJobAlertPolicyEffect')]"
           },
           "threshold": {
             "value": "[parameters('AATotalJobAlertThreshold')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('AATotalJobAlertEvaluationFrequency')]"
+          },
+          "severity": {
+            "value": "[parameters('AATotalJobAlertSeverity')]"
           }
         }
       },
@@ -295,23 +295,23 @@
         "policyDefinitionReferenceId": "ALZ_StorageAccountAvailability",
         "policyDefinitionName": "Deploy_StorageAccount_Availability_Alert",
         "parameters": {
-          "effect": {
-            "value": "[parameters('StorageAccountAvailabilityPolicyEffect')]"
-          },
-          "severity": {
-            "value": "[parameters('StorageAccountAvailabilityAlertSeverity')]"
+          "windowSize": {
+            "value": "[parameters('StorageAccountAvailabilityWindowSize')]"
           },
           "enabled": {
             "value": "[parameters('StorageAccountAvailabilityAlertState')]"
           },
-          "evaluationFrequency": {
-            "value": "[parameters('StorageAccountAvailabilityFrequency')]"
-          },
-          "windowSize": {
-            "value": "[parameters('StorageAccountAvailabilityWindowSize')]"
+          "effect": {
+            "value": "[parameters('StorageAccountAvailabilityPolicyEffect')]"
           },
           "threshold": {
             "value": "[parameters('StorageAccountAvailabilityThreshold')]"
+          },
+          "evaluationFrequency": {
+            "value": "[parameters('StorageAccountAvailabilityFrequency')]"
+          },
+          "severity": {
+            "value": "[parameters('StorageAccountAvailabilityAlertSeverity')]"
           }
         }
       }

@@ -5,11 +5,11 @@
     "description": "Policy to Deploy Deploy Alert Processing Rule with Action Group",
     "mode": "All",
     "metadata": {
+      "category": "Monitoring",
+      "version": "1.0.1",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "category": "Monitoring",
-      "version": "1.0.1",
       "_deployed_by_alz_monitor": "True",
       "source": "https://github.com/Azure/Enterprise-Scale/"
     },
@@ -30,14 +30,6 @@
         },
         "type": "String"
       },
-      "alzMonitorResourceGroupLocation": {
-        "defaultValue": "centralus",
-        "metadata": {
-          "description": "Location of the Resource group the alert is placed in",
-          "displayName": "Resource Group Location"
-        },
-        "type": "String"
-      },
       "alzMonitorResourceGroupTags": {
         "defaultValue": {
           "environment": "test"
@@ -55,14 +47,22 @@
           "displayName": "Resource Group Name"
         },
         "type": "String"
+      },
+      "alzMonitorResourceGroupLocation": {
+        "defaultValue": "centralus",
+        "metadata": {
+          "description": "Location of the Resource group the alert is placed in",
+          "displayName": "Resource Group Location"
+        },
+        "type": "String"
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Resources/subscriptions",
-            "field": "type"
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -77,8 +77,8 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Alz Alert Processing Rule for Subscription",
-                "field": "Microsoft.AlertsManagement/actionRules/description"
+                "field": "Microsoft.AlertsManagement/actionRules/description",
+                "equals": "Alz Alert Processing Rule for Subscription"
               }
             ]
           },
@@ -158,14 +158,14 @@
                             "type": "Microsoft.Insights/actionGroups",
                             "properties": {
                               "enabled": true,
+                              "groupShortName": "AlzActionGrp",
                               "emailReceivers": [
                                 {
                                   "name": "AlzMail",
                                   "useCommonAlertSchema": true,
                                   "emailAddress": "[parameters('ALZMonitorActionGroupEmail')]"
                                 }
-                              ],
-                              "groupShortName": "AlzActionGrp"
+                              ]
                             },
                             "apiVersion": "2022-04-01",
                             "location": "global",
@@ -184,10 +184,10 @@
                               ],
                               "actions": [
                                 {
+                                  "actionType": "AddActionGroups",
                                   "actiongroupIds": [
                                     "[concat(subscription().Id, '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.Insights/actionGroups/AlzActionGrp')]"
-                                  ],
-                                  "actionType": "AddActionGroups"
+                                  ]
                                 }
                               ]
                             },

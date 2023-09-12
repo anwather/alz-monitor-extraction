@@ -1,54 +1,51 @@
 {
+  "nodeName": "/root",
+  "definitionEntry": {
+    "policySetName": "Alerting-Identity",
+    "displayName": "Deploy ALZ Identity alerts"
+  },
+  "assignment": {
+    "name": "ALZ-Monitor_Identity",
+    "displayName": "ALZ Monitoring Alerts for Identity",
+    "description": "Initiative to deploy alerts relevant to the ALZ Identity Management group"
+  },
   "metadata": {
     "_deployed_by_alz_monitor": true
   },
-  "nodeName": "/root",
+  "parameters": {
+    "kvLatencyAvailabilityThreshold": "1000",
+    "alzMonitorResourceGroupName": "rg-alz-monitor",
+    "kvRequestPolicyEffect": "disabled",
+    "kvAvailabilityEvaluationFrequency": "PT1M",
+    "kvAvailabilityAlertState": "true",
+    "kvLatencyAvailabilityAlertState": "true",
+    "kvRequestAlertState": "true",
+    "alzMonitorResourceGroupLocation": "eastus",
+    "kvRequestAlertSeverity": "2",
+    "kvLatencyAvailabilityEvaluationFrequency": "PT5M",
+    "kvLatencyAvailabilityPolicyEffect": "disabled",
+    "kvLatencyAvailabilityWindowSize": "PT5M",
+    "kvAvailabilityWindowSize": "PT1M",
+    "kvAvailabilityThreshold": "20",
+    "alzMonitorResourceGroupTags": {
+      "Project": "alz-monitor"
+    },
+    "kvCapacityAlertSeverity": "1",
+    "kvLatencyAvailabilityAlertSeverity": "3",
+    "kvCapacityAlertState": "true",
+    "kvCapacityThreshold": "75",
+    "activityKVDeleteAlertState": "true",
+    "kvCapacityWindowSize": "PT5M",
+    "kvCapacityEvaluationFrequency": "PT1M",
+    "kvAvailabilityAlertSeverity": "1",
+    "kvAvailabilityPolicyEffect": "disabled",
+    "kvCapacityPolicyEffect": "disabled",
+    "kvRequestEvaluationFrequency": "PT5M",
+    "kvRequestWindowSize": "PT5M"
+  },
   "scope": {
     "alz-monitor": [
       "/providers/Microsoft.Management/managementGroups/alz-monitor-identity"
     ]
-  },
-  "parameters": {
-    "kvLatencyAvailabilityWindowSize": "PT5M",
-    "kvCapacityPolicyEffect": "disabled",
-    "kvLatencyAvailabilityPolicyEffect": "disabled",
-    "kvCapacityAlertState": "true",
-    "kvCapacityWindowSize": "PT5M",
-    "alzMonitorResourceGroupTags": {
-      "Project": "alz-monitor"
-    },
-    "kvCapacityEvaluationFrequency": "PT1M",
-    "kvAvailabilityAlertState": "true",
-    "kvAvailabilityWindowSize": "PT1M",
-    "kvRequestWindowSize": "PT5M",
-    "kvLatencyAvailabilityAlertSeverity": "3",
-    "alzMonitorResourceGroupLocation": "eastus",
-    "kvLatencyAvailabilityEvaluationFrequency": "PT5M",
-    "kvAvailabilityThreshold": "20",
-    "kvRequestAlertSeverity": "2",
-    "kvAvailabilityPolicyEffect": "disabled",
-    "kvRequestPolicyEffect": "disabled",
-    "kvAvailabilityEvaluationFrequency": "PT1M",
-    "kvRequestEvaluationFrequency": "PT5M",
-    "kvRequestAlertState": "true",
-    "kvLatencyAvailabilityThreshold": "1000",
-    "alzMonitorResourceGroupName": "rg-alz-monitor",
-    "kvAvailabilityAlertSeverity": "1",
-    "kvLatencyAvailabilityAlertState": "true",
-    "kvCapacityThreshold": "75",
-    "activityKVDeleteAlertState": "true",
-    "kvCapacityAlertSeverity": "1"
-  },
-  "managedIdentityLocations": {
-    "alz-monitor": ""
-  },
-  "assignment": {
-    "description": "Initiative to deploy alerts relevant to the ALZ Identity Management group",
-    "displayName": "ALZ Monitoring Alerts for Identity",
-    "name": "ALZ-Monitor_Identity"
-  },
-  "definitionEntry": {
-    "policySetName": "Alerting-Identity",
-    "displayName": "Deploy ALZ Identity alerts"
   }
 }
