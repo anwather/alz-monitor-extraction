@@ -1,45 +1,42 @@
 {
+  "nodeName": "/root",
+  "definitionEntry": {
+    "policySetName": "Alerting-Management",
+    "displayName": "Deploy ALZ Management alerts"
+  },
+  "assignment": {
+    "name": "ALZ-Monitor_Management",
+    "displayName": "ALZ Monitoring Alerts for Management",
+    "description": "Initiative to deploy alerts relevant to the ALZ Management Management group"
+  },
   "metadata": {
     "_deployed_by_alz_monitor": true
   },
-  "nodeName": "/root",
+  "parameters": {
+    "aaTotalJobAlertSeverity": "2",
+    "aaTotalJobAlertPolicyEffect": "deployIfNotExists",
+    "activityLAWDeleteAlertState": "true",
+    "storageAccountAvailabilityFrequency": "PT5M",
+    "activityLAWKeyRegenAlertState": "true",
+    "aaTotalJobAlertEvaluationFrequency": "PT1M",
+    "alzMonitorResourceGroupLocation": "eastus",
+    "storageAccountAvailabilityAlertState": "true",
+    "storageAccountAvailabilityThreshold": "90",
+    "aaTotalJobAlertWindowSize": "PT5M",
+    "storageAccountAvailabilityPolicyEffect": "deployIfNotExists",
+    "storageAccountAvailabilityAlertSeverity": "1",
+    "aaTotalJobAlertAlertState": "true",
+    "rvBackupHealthMonitorPolicyEffect": "modify",
+    "storageAccountAvailabilityWindowSize": "PT5M",
+    "alzMonitorResourceGroupTags": {
+      "Project": "alz-monitor"
+    },
+    "alzMonitorResourceGroupName": "rg-alz-monitor",
+    "aaTotalJobAlertThreshold": "20"
+  },
   "scope": {
     "alz-monitor": [
       "/providers/Microsoft.Management/managementGroups/alz-monitor-management"
     ]
-  },
-  "parameters": {
-    "aaTotalJobAlertThreshold": "20",
-    "storageAccountAvailabilityFrequency": "PT5M",
-    "alzMonitorResourceGroupTags": {
-      "Project": "alz-monitor"
-    },
-    "rvBackupHealthMonitorPolicyEffect": "modify",
-    "activityLAWDeleteAlertState": "true",
-    "aaTotalJobAlertSeverity": "2",
-    "storageAccountAvailabilityPolicyEffect": "deployIfNotExists",
-    "aaTotalJobAlertEvaluationFrequency": "PT1M",
-    "storageAccountAvailabilityThreshold": "90",
-    "storageAccountAvailabilityAlertState": "true",
-    "activityLAWKeyRegenAlertState": "true",
-    "storageAccountAvailabilityAlertSeverity": "1",
-    "aaTotalJobAlertWindowSize": "PT5M",
-    "alzMonitorResourceGroupName": "rg-alz-monitor",
-    "alzMonitorResourceGroupLocation": "eastus",
-    "aaTotalJobAlertPolicyEffect": "deployIfNotExists",
-    "storageAccountAvailabilityWindowSize": "PT5M",
-    "aaTotalJobAlertAlertState": "true"
-  },
-  "managedIdentityLocations": {
-    "alz-monitor": ""
-  },
-  "assignment": {
-    "description": "Initiative to deploy alerts relevant to the ALZ Management Management group",
-    "displayName": "ALZ Monitoring Alerts for Management",
-    "name": "ALZ-Monitor_Management"
-  },
-  "definitionEntry": {
-    "policySetName": "Alerting-Management",
-    "displayName": "Deploy ALZ Management alerts"
   }
 }

@@ -5,15 +5,27 @@
     "description": "Policy to Deploy Service Health Incident Alert",
     "mode": "All",
     "metadata": {
+      "category": "Monitoring",
+      "version": "1.1.1",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "category": "Monitoring",
-      "version": "1.1.1",
       "_deployed_by_alz_monitor": "True",
       "source": "https://github.com/Azure/Enterprise-Scale/"
     },
     "parameters": {
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
+        },
+        "type": "String"
+      },
       "alertResourceGroupName": {
         "defaultValue": "AlzMonitoring-rg",
         "metadata": {
@@ -27,18 +39,6 @@
         "metadata": {
           "description": "Location of the Resource group the alert is placed in",
           "displayName": "Resource Group Location"
-        },
-        "type": "String"
-      },
-      "enabled": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
         },
         "type": "String"
       },
@@ -74,8 +74,8 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Resources/subscriptions",
-            "field": "type"
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -90,8 +90,8 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "[parameters('enabled')]",
-                "field": "Microsoft.Insights/ActivityLogAlerts/enabled"
+                "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
+                "equals": "[parameters('enabled')]"
               },
               {
                 "equals": 2,
@@ -102,24 +102,24 @@
                       {
                         "allOf": [
                           {
-                            "equals": "category",
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field"
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].field",
+                            "equals": "category"
                           },
                           {
-                            "equals": "ServiceHealth",
-                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals"
+                            "field": "Microsoft.Insights/ActivityLogAlerts/condition.allOf[*].equals",
+                            "equals": "ServiceHealth"
                           }
                         ]
                       },
                       {
                         "allOf": [
                           {
-                            "equals": "properties.incidentType",
-                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].field"
+                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].field",
+                            "equals": "properties.incidentType"
                           },
                           {
-                            "equals": "Incident",
-                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].equals"
+                            "field": "microsoft.insights/activityLogAlerts/condition.allOf[*].equals",
+                            "equals": "Incident"
                           }
                         ]
                       }
@@ -135,14 +135,14 @@
           "deployment": {
             "properties": {
               "parameters": {
+                "enabled": {
+                  "value": "[parameters('enabled')]"
+                },
                 "alertResourceGroupName": {
                   "value": "[parameters('alertResourceGroupName')]"
                 },
                 "alertResourceGroupLocation": {
                   "value": "[parameters('alertResourceGroupLocation')]"
-                },
-                "enabled": {
-                  "value": "[parameters('enabled')]"
                 },
                 "alertResourceGroupTags": {
                   "value": "[parameters('alertResourceGroupTags')]"
@@ -154,13 +154,13 @@
               "mode": "incremental",
               "template": {
                 "parameters": {
+                  "enabled": {
+                    "type": "string"
+                  },
                   "alertResourceGroupName": {
                     "type": "string"
                   },
                   "alertResourceGroupLocation": {
-                    "type": "string"
-                  },
-                  "enabled": {
                     "type": "string"
                   },
                   "alertResourceGroupTags": {
@@ -188,11 +188,11 @@
                     "type": "Microsoft.Resources/deployments",
                     "properties": {
                       "parameters": {
-                        "alertResourceGroupName": {
-                          "value": "[parameters('alertResourceGroupName')]"
-                        },
                         "enabled": {
                           "value": "[parameters('enabled')]"
+                        },
+                        "alertResourceGroupName": {
+                          "value": "[parameters('alertResourceGroupName')]"
                         },
                         "ALZMonitorActionGroupEmail": {
                           "value": "[parameters('ALZMonitorActionGroupEmail')]"
@@ -201,10 +201,10 @@
                       "mode": "Incremental",
                       "template": {
                         "parameters": {
-                          "alertResourceGroupName": {
+                          "enabled": {
                             "type": "string"
                           },
-                          "enabled": {
+                          "alertResourceGroupName": {
                             "type": "string"
                           },
                           "ALZMonitorActionGroupEmail": {
@@ -229,12 +229,12 @@
                               "condition": {
                                 "allOf": [
                                   {
-                                    "equals": "ServiceHealth",
-                                    "field": "category"
+                                    "field": "category",
+                                    "equals": "ServiceHealth"
                                   },
                                   {
-                                    "equals": "Incident",
-                                    "field": "properties.incidentType"
+                                    "field": "properties.incidentType",
+                                    "equals": "Incident"
                                   }
                                 ]
                               },
@@ -260,14 +260,14 @@
                             "type": "Microsoft.Insights/actionGroups",
                             "properties": {
                               "enabled": true,
+                              "groupShortName": "AlzActionGrp",
                               "emailReceivers": [
                                 {
                                   "name": "AlzMail",
                                   "useCommonAlertSchema": true,
                                   "emailAddress": "[parameters('ALZMonitorActionGroupEmail')]"
                                 }
-                              ],
-                              "groupShortName": "AlzActionGrp"
+                              ]
                             },
                             "apiVersion": "2022-04-01",
                             "location": "global",

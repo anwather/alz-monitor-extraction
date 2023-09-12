@@ -5,11 +5,11 @@
     "description": "Policy to audit/update Recovery Vault Backup Health Alerting to Azure monitor alerts",
     "mode": "All",
     "metadata": {
+      "category": "Site Recovery",
+      "version": "1.0.0",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "category": "Site Recovery",
-      "version": "1.0.0",
       "_deployed_by_alz_monitor": "True",
       "source": "https://github.com/Azure/Enterprise-Scale/"
     },
@@ -40,8 +40,8 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.RecoveryServices/Vaults",
-            "field": "type"
+            "field": "type",
+            "equals": "Microsoft.RecoveryServices/Vaults"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
@@ -59,19 +59,19 @@
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
           ],
-          "conflictEffect": "audit",
           "operations": [
             {
-              "value": "Disabled",
               "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.classicAlertSettings.alertsForCriticalOperations",
+              "value": "Disabled",
               "operation": "addOrReplace"
             },
             {
-              "value": "Enabled",
               "field": "Microsoft.RecoveryServices/vaults/monitoringSettings.azureMonitorAlertSettings.alertsForAllJobFailures",
+              "value": "Enabled",
               "operation": "addOrReplace"
             }
-          ]
+          ],
+          "conflictEffect": "audit"
         }
       }
     }

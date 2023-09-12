@@ -1,36 +1,33 @@
 {
+  "nodeName": "/root",
+  "definitionEntry": {
+    "policySetName": "Alerting-ServiceHealth",
+    "displayName": "Deploy Service Health alerts"
+  },
+  "assignment": {
+    "name": "ALZ-Monitor_SvcHealth",
+    "displayName": "ALZ Monitoring Alerts for Service Health",
+    "description": "Initiative to deploy alerts relevant to the ALZ Management Management group. Also included are a generic action group and alert processing rule required to support the alerts."
+  },
   "metadata": {
     "_deployed_by_alz_monitor": true
   },
-  "nodeName": "/root",
-  "scope": {
-    "alz-monitor": [
-      "/providers/Microsoft.Management/managementGroups/alz"
-    ]
-  },
   "parameters": {
-    "alzMonitorActionGroupEmail": "action@mail.com",
+    "resHlthUnhealthyAlertState": "true",
+    "alzMonitorResourceGroupName": "rg-alz-monitor",
     "svcHlthAdvisoryAlertState": "true",
     "alzMonitorResourceGroupLocation": "eastus",
+    "alzMonitorActionGroupEmail": "action@mail.com",
+    "svcHlthSecAdvisoryAlertState": "true",
     "svcHlthMaintenanceAlertState": "true",
     "svcHlthIncidentAlertState": "true",
-    "svcHlthSecAdvisoryAlertState": "true",
-    "alzMonitorResourceGroupName": "rg-alz-monitor",
-    "resHlthUnhealthyAlertState": "true",
     "alzMonitorResourceGroupTags": {
       "Project": "alz-monitor"
     }
   },
-  "managedIdentityLocations": {
-    "alz-monitor": ""
-  },
-  "assignment": {
-    "description": "Initiative to deploy alerts relevant to the ALZ Management Management group. Also included are a generic action group and alert processing rule required to support the alerts.",
-    "displayName": "ALZ Monitoring Alerts for Service Health",
-    "name": "ALZ-Monitor_SvcHealth"
-  },
-  "definitionEntry": {
-    "policySetName": "Alerting-ServiceHealth",
-    "displayName": "Deploy Service Health alerts"
+  "scope": {
+    "alz-monitor": [
+      "/providers/Microsoft.Management/managementGroups/alz"
+    ]
   }
 }
